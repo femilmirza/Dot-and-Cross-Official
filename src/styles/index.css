@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'InktrapExtraBold';
+  src: url('./fonts/Inktrap-ExtraBold.otf') format('opentype');
+}
+
+.font-inktrap {
+  font-family: 'InktrapExtraBold', sans-serif;
+}
+
+.text-fluid {
+  font-size: clamp(4.5rem, 30.5vw, 20rem); /* Adjust min, preferred, max */
+  line-height: 1.25;
+}
