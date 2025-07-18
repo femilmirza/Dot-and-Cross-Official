@@ -1,15 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
 
-@font-face {
-  font-family: 'InkTrap';
-  src: url('/fonts/InkTrap-ExtraBold.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.font-inter {
+  font-family: 'Inter', sans-serif;
 }
+
 body {
   margin: 0;
   padding: 0;
+}
+/* index.css */
+.text-fluid {
+  font-size: clamp(4.5rem, 32.5vw, 22rem);
+  line-height: 1;
 }

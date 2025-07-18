@@ -1,10 +1,12 @@
-// tailwind.config.js
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}", // Looks inside all files in /src for Tailwind classes
+  ],
   theme: {
     extend: {
       fontFamily: {
-        inktrap: ['InkTrap', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
     },
   },
