@@ -1,77 +1,104 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 
+const Line = ({ text, onClick }) => {
+  const isInteractive = text === 'HERE';
+
+  const renderText = () => {
+    if (text === 'CROSS') {
+      return (
+        <>
+          CR
+          <span className="o-inward">
+            <span className="o-letter">O</span>
+          </span>
+          SS
+        </>
+      );
+    }
+    if (text === 'DOT &') {
+      return (
+        <>
+          DOT <span className="font-inter">&</span>
+        </>
+      );
+    }
+    return text;
+  };
+
+  return (
+    <div className={isInteractive ? 'inline-block overflow-visible' : 'block overflow-visible'}>
+      <div
+        onClick={isInteractive ? onClick : undefined}
+        className={`text-fluid font-black uppercase tracking-tight leading-[0.75] transition-opacity duration-300 ${
+          isInteractive ? 'hover-fade cursor-pointer inline-block' : ''
+        }`}
+      >
+        {renderText()}
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [showContact, setShowContact] = useState(false);
 
-  // Lock scroll when contact is shown
   useEffect(() => {
     document.body.style.overflow = showContact ? 'hidden' : 'auto';
   }, [showContact]);
 
   return (
-    <div className="bg-[#C6C6C6] text-[#1E1E1E] min-h-screen overflow-hidden cursor-crosshair transition-all duration-700 ease-in-out">
-
-      {/* Top Line to Close Contact Section */}
+    <div className="bg-[#F8F8F8] text-[#1e1e1e] min-h-screen cursor-crosshair transition-all duration-700 ease-in-out px-1 pt-[1vh] flex flex-col gap-[-0.75em]">
+      {/* Top black bar (click to close) */}
       {showContact && (
         <div
           onClick={() => setShowContact(false)}
-          className="fixed top-0 left-0 w-full h-[75px] bg-[#C6C6C6] cursor-pointer z-50"
-          title="Back to Home"
-        ></div>
+          className="fixed inset-x-0 top-0 h-[75px] bg-[#1e1e1e] cursor-pointer z-50"
+        />
       )}
 
-      {/* Main Content */}
-      <div
-        className={`transition-transform duration-700 ease-in-out flex flex-col items-start px-6 ${
-          showContact ? '-translate-y-[40vh]' : ''
-        }`}
-      >
-        {/* DOT & CROSS */}
-        <div className="space-y-[-5vw]">
-          <div className="flex items-center space-x-1 text-fluid font-extrabold uppercase tracking-tight font-inter">
-            <span>DOT</span>
-            <span className="relative">
-              <span className="absolute inset-0 bg-[#42b7e9] z-0 w-full h-full"></span>
-              <span className="relative z-10 text-white">&</span>
-            </span>
-          </div>
-          <div className="text-fluid font-extrabold uppercase tracking-tight font-inter">
-            CROSS
-          </div>
-        </div>
+      {/* Main navigation lines */}
+      <Line text="DOT &" />
+      <Line text="CROSS" />
+      <Line text="BRANDS" />
+      <Line text="START" />
+      <Line text="HERE" onClick={() => setShowContact(!showContact)} />
 
-        {/* Navigation */}
-        <div className="mt-[-5vw] space-y-[-5vw] text-fluid font-extrabold uppercase tracking-tight font-inter">
-          <div>BRANDS</div>
-          <div>START</div>
-
-          {/* HERE Button */}
-          <div
-            onClick={() => setShowContact(!showContact)}
-            className="relative z-20"
-          >
-            <div
-              className={`cursor-pointer hover:opacity-60 transition-transform duration-500 ease-in-out ${
-                showContact ? 'translate-y-[90vh]' : 'translate-y-0'
-              }`}
+      {/* Contact Info Overlay */}
+      {showContact && (
+        <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-1 py-40">
+          {/* Top-left contact links */}
+          <div className="flex flex-col items-start gap-1">
+            <a
+              href="mailto:hi@dotandcross.agency"
+              className="inline-block text-5xl sm:text-6xl md:text-7xl font-semibold leading-tight hover:opacity-80 transition-opacity duration-200 px-1"
             >
-              HERE
+              hi@dotandcross.agency
+            </a>
+            <a
+              href="tel:+971521612390"
+              className="inline-block text-5xl sm:text-6xl md:text-7xl font-semibold leading-tight px-1 hover:opacity-80 transition-opacity duration-200"
+            >
+              +971 52 161 2390
+            </a>
+            <a
+              href="https://maps.app.goo.gl/F79xDWS4qsbTLUL5A"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-5xl sm:text-6xl md:text-7xl font-semibold px-1 inline-block hover:opacity-80 transition-opacity duration-200"
+            >
+              MBZ City, Abu Dhabi, UAE
+            </a>
+          </div>
+
+          {/* Bottom-left BACK button */}
+          <div onClick={() => setShowContact(false)} className="inline-block overflow-visible">
+            <div className="text-fluid font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
+              BACK
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Contact Overlay Section */}
-      <div
-        className={`fixed left-0 top-0 w-full h-screen flex flex-col items-start justify-center px-6 text-left transition-all duration-700 bg-[#1E1E1E] text-[#C6C6C6] z-10 ${
-          showContact ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <p className="text-6xl font-semibold mb-4">hi@dotandcross.agency</p>
-        <p className="text-6xl font-semibold mb-4">+97 156 933 0515</p>
-        <p className="text-6xl font-medium">M1, C231, ME12, MBZ City, Abu Dhabi, UAE</p>
-      </div>
+      )}
     </div>
   );
 };
