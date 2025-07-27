@@ -52,3 +52,21 @@ body {
 .o-inward:hover::after {
   transform: translate(-50%, -50%) scale(1);
 }
+/* Add this new class to your index.css file */
+.app-container {
+  /* Make sure to use the correct path to your image */
+  background-image: url('/lines.svg');
+  background-repeat: no-repeat;
+  background-size: fill;
+  background-position: right top;
+  /* This keeps the background fixed in place when the page scrolls */
+  background-attachment: fixed;
+}
+
+/* --- You can DELETE all of these old styles: --- */
+/*
+.line-art { ... }
+.line-art-1 { ... }
+.line-art-2 { ... }
+.line-art-3 { ... }
+*/
