@@ -51,8 +51,9 @@ const capabilitiesData = [
   },
 ];
 
-const BrandCapabilities = ({ onClose }) => {
+const BrandCapabilities = ({ onClose, onShowContact }) => {
   const [activeId, setActiveId] = useState(null);
+  const [hoveredId, setHoveredId] = useState(null);
 
   const toggleSection = (id) => {
     setActiveId(activeId === id ? null : id);
@@ -66,14 +67,13 @@ const BrandCapabilities = ({ onClose }) => {
       exit={{ opacity: 0, y: 30 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* BACK Bar on top */}
+      {/* Top black bar */}
       <div
         onClick={onClose}
         className="fixed inset-x-0 top-0 h-[75px] bg-[#1e1e1e] cursor-pointer z-50"
       />
 
       <div>
-        {/* Page Title */}
         <motion.h1
           className="page-title"
           initial={{ x: -40, opacity: 0 }}
@@ -87,23 +87,22 @@ const BrandCapabilities = ({ onClose }) => {
         <div className="accordion-container">
           {capabilitiesData.map((section) => {
             const isActive = activeId === section.id;
+            const isHovered = hoveredId === section.id;
+
             return (
               <div key={section.id} className="accordion-item">
                 <motion.button
                   layout
-                  className={`accordion-header ${isActive ? "active-header" : ""}`}
+                  className={`accordion-header ${
+                    isActive || isHovered ? "active-header" : ""
+                  }`}
                   onClick={() => toggleSection(section.id)}
+                  onMouseEnter={() => setHoveredId(section.id)}
+                  onMouseLeave={() => setHoveredId(null)}
                   initial={false}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <span>{section.title}</span>
-                  <motion.span
-                    className="icon"
-                    animate={{ rotate: isActive ? 45 : 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    +
-                  </motion.span>
                 </motion.button>
 
                 <AnimatePresence initial={false}>
@@ -154,11 +153,22 @@ const BrandCapabilities = ({ onClose }) => {
         </div>
       </div>
 
-      {/* BACK Button at bottom-left */}
-      <div className="px-4 pb-1">
+      {/* Bottom CTA + BACK button */}
+      <div className="px-4 pb-4 flex flex-col items-start gap-3">
+        {/* BIG BOLD CTA styled same as DOT/CROSS/BACK */}
+        <div
+          onClick={() =>
+            window.open("https://calendly.com/femita-dotandcross/", "_blank")
+          }
+          className="text-fluid font-black uppercase tracking-tight mt-20 leading-[0.8] text-[#1e1e1e] cursor-pointer hover:opacity-70 transition-opacity duration-300"
+        >
+          BOOK A FREE DISCOVERY CALL
+        </div>
+
+        {/* BACK button */}
         <div
           onClick={onClose}
-          className="text-fluid font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block"
+          className="text-fluid font-black uppercase tracking-tight leading-[3] text-[#B3B3B3] cursor-pointer inline-block"
         >
           BACK
         </div>

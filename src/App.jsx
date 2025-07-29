@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import './index.css';
-import BrandCapabilities from './BrandCapabilities';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import "./index.css";
+import BrandCapabilities from "./BrandCapabilities";
+import AboutUs from "./AboutUs";
 
 const FloatingCircles = ({ count = 10 }) => {
   const [circles, setCircles] = useState([]);
   const mouse = React.useRef({ x: null, y: null });
 
-  // Random spawn position
-  const getRandomPosition = React.useCallback(() => ({
-    x: Math.random() * (window.innerWidth - 40),
-    y: Math.random() * (window.innerHeight * 2 - 40),
-  }), []);
+  const getRandomPosition = React.useCallback(
+    () => ({
+      x: Math.random() * (window.innerWidth - 40),
+      y: Math.random() * (window.innerHeight * 2 - 40),
+    }),
+    []
+  );
 
   const getRandomColor = () => {
     const colors = [
-      '#f36c21', '#f4eb27', '#42b7e9', '#00b0ba',
-      '#006582', '#e94e77', '#7d5fff',
+      "#f36c21",
+      "#f4eb27",
+      "#42b7e9",
+      "#00b0ba",
+      "#006582",
+      "#e94e77",
+      "#7d5fff",
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  // Initialize circles on mount/resize
   useEffect(() => {
     function spawnCircles() {
       setCircles(
@@ -38,11 +45,10 @@ const FloatingCircles = ({ count = 10 }) => {
       );
     }
     spawnCircles();
-    window.addEventListener('resize', spawnCircles);
-    return () => window.removeEventListener('resize', spawnCircles);
+    window.addEventListener("resize", spawnCircles);
+    return () => window.removeEventListener("resize", spawnCircles);
   }, [count, getRandomPosition]);
 
-  // Continuous movement loop
   useEffect(() => {
     const interval = setInterval(() => {
       setCircles((prev) =>
@@ -50,7 +56,6 @@ const FloatingCircles = ({ count = 10 }) => {
           let { x, y } = c.pos;
           let { dx, dy } = c.dir;
 
-          // Repel effect
           if (c.repel && mouse.current.x !== null && mouse.current.y !== null) {
             const distX = x + 20 - mouse.current.x;
             const distY = y + 20 - mouse.current.y;
@@ -64,7 +69,6 @@ const FloatingCircles = ({ count = 10 }) => {
           x += dx;
           y += dy;
 
-          // Bounce edges
           if (x <= 0 || x >= window.innerWidth - 40) dx *= -1;
           if (y <= 0 || y >= window.innerHeight * 2 - 40) dy *= -1;
 
@@ -78,7 +82,7 @@ const FloatingCircles = ({ count = 10 }) => {
           };
         })
       );
-    }, 16); // ~60fps
+    }, 16);
 
     return () => clearInterval(interval);
   }, []);
@@ -108,9 +112,7 @@ const FloatingCircles = ({ count = 10 }) => {
 
   const changeColor = (id) => {
     setCircles((prev) =>
-      prev.map((c) =>
-        c.id === id ? { ...c, color: getRandomColor() } : c
-      )
+      prev.map((c) => (c.id === id ? { ...c, color: getRandomColor() } : c))
     );
   };
 
@@ -118,9 +120,9 @@ const FloatingCircles = ({ count = 10 }) => {
     <div
       className="absolute top-0 left-0 pointer-events-none z-10"
       style={{
-        width: '100vw',
+        width: "100vw",
         height: window.innerHeight * 2,
-        overflow: 'hidden',
+        overflow: "hidden",
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -148,11 +150,11 @@ const FloatingCircles = ({ count = 10 }) => {
 };
 
 const Line = ({ text, onClick, isLink = false }) => {
-  const interactive = text === 'HERE' || isLink;
+  const interactive = text === "CONTACT" || isLink;
 
   const renderText = () => {
-    if (text === 'CROSS') return 'CROSS';
-    if (text === 'DOT &')
+    if (text === "CROSS") return "CROSS";
+    if (text === "DOT &")
       return (
         <>
           DOT <span className="font-inter">&</span>
@@ -164,13 +166,13 @@ const Line = ({ text, onClick, isLink = false }) => {
   return (
     <div
       className={`relative ${
-        interactive ? 'inline-block' : 'block'
+        interactive ? "inline-block" : "block"
       } w-full overflow-hidden`}
     >
       <div
         onClick={interactive ? onClick : undefined}
         className={`text-fluid font-black uppercase tracking-tight leading-[0.75] transition-opacity duration-300 ${
-          interactive ? 'hover-fade cursor-pointer inline-block' : ''
+          interactive ? "hover-fade cursor-pointer inline-block" : ""
         }`}
       >
         {renderText()}
@@ -182,36 +184,51 @@ const Line = ({ text, onClick, isLink = false }) => {
 const App = () => {
   const [showContact, setShowContact] = useState(false);
   const [showCapabilities, setShowCapabilities] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow =
-      showContact || showCapabilities ? 'hidden' : 'auto';
-  }, [showContact, showCapabilities]);
+      showContact || showCapabilities || showAbout ? "hidden" : "auto";
+  }, [showContact, showCapabilities, showAbout]);
 
   return (
     <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair transition-all duration-700 ease-in-out px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
-      {(showContact || showCapabilities) && (
+      {(showContact || showCapabilities || showAbout) && (
         <div
           onClick={() => {
             setShowContact(false);
             setShowCapabilities(false);
+            setShowAbout(false);
           }}
           className="fixed inset-x-0 top-0 h-[75px] bg-[#1e1e1e] cursor-pointer z-50"
         />
       )}
 
+      {/* Header Lines */}
       <Line text="DOT &" />
       <Line text="CROSS" />
-      <Line text="BRANDS" />
+      <Line text="ABOUT" onClick={() => setShowAbout(true)} isLink={true} />
+      <Line text="PHILOSOPHY" />
       <Line
-        text="START"
+        text="CAPABILITIES"
         onClick={() => setShowCapabilities(true)}
         isLink={true}
       />
-      <Line text="HERE" onClick={() => setShowContact((v) => !v)} />
+      <Line text="CONTACT" onClick={() => setShowContact((v) => !v)} />
 
+      {/* Floating Circles Background */}
       <FloatingCircles count={10} />
 
+      {/* Footer Text */}
+      <div className="absolute bottom-3 right-1 pr-10 text-xs text-right leading-[0.8] tracking-tight text-[#1e1e1e] opacity-80 indent-10">
+        <p>
+          We don’t brand for attention ——<br />
+          We brand for alignment.
+        </p>
+        <p> © {new Date().getFullYear()} Dot&Cross. All rights reserved. </p>
+      </div>
+
+      {/* Contact Overlay */}
       {showContact && (
         <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-1 py-40">
           <div className="flex flex-col items-start gap-1">
@@ -236,7 +253,10 @@ const App = () => {
               MBZ City, Abu Dhabi, UAE
             </a>
           </div>
-          <div onClick={() => setShowContact(false)} className="inline-block overflow-visible">
+          <div
+            onClick={() => setShowContact(false)}
+            className="inline-block overflow-visible"
+          >
             <div className="text-fluid font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
               BACK
             </div>
@@ -244,8 +264,23 @@ const App = () => {
         </div>
       )}
 
+      {/* Capabilities Overlay */}
       {showCapabilities && (
-        <BrandCapabilities onClose={() => setShowCapabilities(false)} />
+        <BrandCapabilities
+          onClose={() => setShowCapabilities(false)}
+          onShowContact={() => {
+            setShowCapabilities(false);
+            setShowContact(true);
+          }}
+        />
+      )}
+
+      {/* About Us Overlay */}
+      {showAbout && (
+        <AboutUs
+          onClose={() => setShowAbout(false)}
+          onFindYourWay={() => setShowCapabilities(true)}
+        />
       )}
     </div>
   );

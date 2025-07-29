@@ -12,7 +12,7 @@ body {
 }
 
 .text-fluid {
-  font-size: clamp(3.5rem, 32.5vw, 20rem);
+  font-size: clamp(5rem, 38vw, 14rem); /* Bigger for DOT & CROSS */
   line-height: 1;
 }
 
