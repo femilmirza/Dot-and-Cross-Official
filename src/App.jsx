@@ -193,20 +193,9 @@ const App = () => {
 
   return (
     <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair transition-all duration-700 ease-in-out px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
-      {(showContact || showCapabilities || showAbout) && (
-        <div
-          onClick={() => {
-            setShowContact(false);
-            setShowCapabilities(false);
-            setShowAbout(false);
-          }}
-          className="fixed inset-x-0 top-0 h-[75px] bg-[#1e1e1e] cursor-pointer z-50"
-        />
-      )}
-
       {/* Header Lines */}
-      <Line text="DOT &" />
-      <Line text="CROSS" />
+      <Line text="DOT &" onClick={() => window.location.reload(true)} isLink={true} />
+      <Line text="CROSS "onClick={() => window.location.reload(true)} isLink={true}/>
       <Line text="ABOUT" onClick={() => setShowAbout(true)} isLink={true} />
       <Line text="PHILOSOPHY" />
       <Line
@@ -216,10 +205,10 @@ const App = () => {
       />
       <Line text="CONTACT" onClick={() => setShowContact((v) => !v)} />
 
-      {/* Floating Circles Background */}
+      {/* Floating Circles */}
       <FloatingCircles count={10} />
 
-      {/* Footer Text */}
+      {/* Footer */}
       <div className="absolute bottom-3 right-1 pr-10 text-xs text-right leading-[0.8] tracking-tight text-[#1e1e1e] opacity-80 indent-10">
         <p>
           We don’t brand for attention ——<br />
@@ -230,7 +219,19 @@ const App = () => {
 
       {/* Contact Overlay */}
       {showContact && (
-        <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-1 py-40">
+        <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-4 pt-[120px] overflow-y-auto">
+          {/* Black bar */}
+          <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
+
+          {/* Home & symbol */}
+          <div
+            onClick={() => setShowContact(false)}
+            className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+          >
+            &amp;
+          </div>
+
+          {/* Contact Info */}
           <div className="flex flex-col items-start gap-1">
             <a
               href="mailto:hi@dotandcross.agency"
@@ -253,9 +254,11 @@ const App = () => {
               MBZ City, Abu Dhabi, UAE
             </a>
           </div>
+
+          {/* BACK Button */}
           <div
             onClick={() => setShowContact(false)}
-            className="inline-block overflow-visible"
+            className="inline-block overflow-visible mt-10"
           >
             <div className="text-fluid font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
               BACK
@@ -275,7 +278,7 @@ const App = () => {
         />
       )}
 
-      {/* About Us Overlay */}
+      {/* About Overlay */}
       {showAbout && (
         <AboutUs
           onClose={() => setShowAbout(false)}

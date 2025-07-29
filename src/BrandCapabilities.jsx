@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./BrandCapabilities.css";
+import "@fontsource/inter/900.css";
 
 const capabilitiesData = [
   {
@@ -67,13 +68,18 @@ const BrandCapabilities = ({ onClose, onShowContact }) => {
       exit={{ opacity: 0, y: 30 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Top black bar */}
-      <div
-        onClick={onClose}
-        className="fixed inset-x-0 top-0 h-[75px] bg-[#1e1e1e] cursor-pointer z-50"
-      />
+{/* Black bar background */}
+<div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
 
+{/* Clickable & symbol (Home button only) */}
+<div
+  onClick={onClose}
+  className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+>
+  &amp;
+</div>
       <div>
+        {/* Title */}
         <motion.h1
           className="page-title"
           initial={{ x: -40, opacity: 0 }}
@@ -83,8 +89,20 @@ const BrandCapabilities = ({ onClose, onShowContact }) => {
           OUR CAPABILITIES
         </motion.h1>
 
+        {/* CTA Square Button */}
+        <motion.div
+          onClick={() =>
+            window.open("https://calendly.com/femita-dotandcross/", "_blank")
+          }
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="ml-4 mt-0 inline-block px-6 py-3 bg-[#1e1e1e] hover:bg-[#42b7e9] hover:text-[#1e1e1e] text-white text-[24px] font-black tracking-tight uppercase cursor-pointer transition-all duration-300"
+        >
+          BOOK A FREE DISCOVERY CALL
+        </motion.div>
+
         {/* Accordion */}
-        <div className="accordion-container">
+        <div className="accordion-container mt-6">
           {capabilitiesData.map((section) => {
             const isActive = activeId === section.id;
             const isHovered = hoveredId === section.id;
@@ -93,7 +111,7 @@ const BrandCapabilities = ({ onClose, onShowContact }) => {
               <div key={section.id} className="accordion-item">
                 <motion.button
                   layout
-                  className={`accordion-header ${
+                  className={`accordion-header flex justify-between items-center w-full ${
                     isActive || isHovered ? "active-header" : ""
                   }`}
                   onClick={() => toggleSection(section.id)}
@@ -103,6 +121,24 @@ const BrandCapabilities = ({ onClose, onShowContact }) => {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <span>{section.title}</span>
+
+                  {/* Down arrow icon */}
+                  <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5 h-5 ml-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    animate={{ rotate: isActive ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </motion.svg>
                 </motion.button>
 
                 <AnimatePresence initial={false}>
@@ -153,22 +189,11 @@ const BrandCapabilities = ({ onClose, onShowContact }) => {
         </div>
       </div>
 
-      {/* Bottom CTA + BACK button */}
-      <div className="px-4 pb-4 flex flex-col items-start gap-3">
-        {/* BIG BOLD CTA styled same as DOT/CROSS/BACK */}
-        <div
-          onClick={() =>
-            window.open("https://calendly.com/femita-dotandcross/", "_blank")
-          }
-          className="text-fluid font-black uppercase tracking-tight mt-20 leading-[0.8] text-[#1e1e1e] cursor-pointer hover:opacity-70 transition-opacity duration-300"
-        >
-          BOOK A FREE DISCOVERY CALL
-        </div>
-
-        {/* BACK button */}
+      {/* Bottom BACK button */}
+      <div className="px-4 pb-4 flex flex-col items-start">
         <div
           onClick={onClose}
-          className="text-fluid font-black uppercase tracking-tight leading-[3] text-[#B3B3B3] cursor-pointer inline-block"
+          className="text-fluid font-black uppercase tracking-tight leading-[0.6] text-[#B3B3B3] cursor-pointer inline-block relative group"
         >
           BACK
         </div>

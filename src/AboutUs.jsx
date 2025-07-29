@@ -2,7 +2,18 @@ import React from "react";
 
 const AboutUs = ({ onClose, onFindYourWay }) => {
   return (
-    <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-4 py-20 overflow-y-auto">
+    <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-4 pt-[120px] overflow-y-auto">
+      {/* Black bar background */}
+      <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
+
+      {/* Clickable & symbol (Home button only) */}
+      <div
+        onClick={onClose}
+        className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+      >
+        &amp;
+      </div>
+
       {/* Content */}
       <div className="flex flex-col gap-10">
         {/* HERO */}
@@ -26,7 +37,7 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
         <button
           onClick={() => {
             onClose(); // Close About overlay
-            onFindYourWay(); // Open Contact overlay
+            onFindYourWay(); // Open Contact/Capabilities overlay
           }}
           className="inline-block text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1e1e1e] border-b-2 border-[#1e1e1e] hover:opacity-80 transition-opacity duration-200 w-fit"
         >
