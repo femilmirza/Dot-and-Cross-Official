@@ -21,27 +21,27 @@ const Philosophy = () => {
       <div className="flex flex-col mt-8 mb-10">
         <div className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium tracking-tight px-1 space-y-8">
           <p>
-            <strong><u>Authenticity is the strongest magnet</u></strong> <br />
+            <u>Authenticity is the strongest magnet</u> <br />
             Authenticity is a brand's true self, unfiltered by trends or borrowed identities.
           </p>
           <p>
-            <strong><u>Honesty always wins.</u></strong> <br />
+            <u>Honesty always wins.</u> <br />
             The strongest brand story is the one that’s true.
           </p>
           <p>
-            <strong><u>Purpose is Power</u></strong> <br />
+            <u>Purpose is Power</u><br />
             A brand without true purpose is merely a business. Its real strength comes from a genuine reason for being, driving every action and connection.
           </p>
           <p>
-            <strong><u>It starts within</u></strong> <br />
+            <u>It starts within</u> <br />
             A brand's external voice is only as strong as its internal alignment. Real power comes from a shared purpose, lived by everyone, not just declared outwardly.
           </p>
           <p>
-            <strong><u>50/50</u></strong> <br />
+            <u>50/50</u> <br />
             Branding is a decision-making tool. We’ll do our half–Strategy, clarity and direction. The rest is yours to live.
           </p>
           <p>
-            <strong><u>Humans are intuitive and emotional so are brands</u></strong> <br />
+            <u>Humans are intuitive and emotional so are brands</u> <br />
             People connect with feeling, not formulas. Brands should do the same. When they tap into genuine emotion, they forge a bond that goes far deeper than any calculated strategy.
           </p>
         </div>

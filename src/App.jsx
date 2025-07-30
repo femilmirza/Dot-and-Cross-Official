@@ -224,7 +224,7 @@ const Home = () => {
           We don’t brand for attention ——<br />
           We brand for alignment.
         </p>
-        <p> © {new Date().getFullYear()} DOTANDCROSS. All rights reserved. </p>
+        <p> © {new Date().getFullYear()} DOT&CROSS. All rights reserved. </p>
       </div>
 
       {/* Contact Overlay */}
