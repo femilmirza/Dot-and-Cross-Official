@@ -36,7 +36,7 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
             onClose(); // Close About overlay
             onFindYourWay(); // Open Contact/Capabilities overlay
           }}
-          className="inline-block text-5xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-medium leading-tight 0 px-1 w-fit"
+          className="inline-block text-5xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-medium leading-tight 0 px-1 w-fit one-line hover:text-[#42b7e9] hover:border-[#42b7e9] transition-all duration-300"
         >
           Find Your Way →
         </button>
