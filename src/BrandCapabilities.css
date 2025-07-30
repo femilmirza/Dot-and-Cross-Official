@@ -12,25 +12,14 @@
   z-index: 50;
 }
 
-/* Title Styling */
-.page-title {
-  font-size: clamp(3rem, 6vw, 8rem);
-  font-weight: 900;
-  margin-left: 0;
-  padding-left: 1rem;
-  text-transform: uppercase;
-  line-height: 1;
-  margin-bottom: 2rem;
-}
-
 /* Accordion container */
 .accordion-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-left: auto;
-  width: 45%;
-  padding-right: 2rem;
+  width: 100%;      /* FULL SCREEN WIDTH */
+  margin-left: 0;   /* reset margin */
+  padding: 0;       /* reset padding */
 }
 
 /* Each accordion item */
@@ -60,47 +49,16 @@
   padding: 1rem;
 }
 
-/* Icons and arrows */
-.icon {
-  display: inline-block;
-  font-size: 1.6rem;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.arrow-icon {
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-/* Accordion body content */
+/* Accordion body */
 .accordion-body p {
   margin-bottom: 1rem;
-  font-size: 1.1rem;
 }
 
 .accordion-body ul {
-  padding-left: 1rem;
+  padding-left: 0;
 }
 
 .accordion-body li {
   margin-bottom: 0.5rem;
-  font-size: 1rem;
-  color: #333;
-}
-
-/* Back button at the bottom */
-.back-btn {
-  background: none;
-  border: none;
-  color: #b3b3b3;
-  font-size: clamp(3rem, 6vw, 7rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  cursor: pointer;
-  line-height: 1;
-  transition: opacity 0.3s;
-}
-
-.back-btn:hover {
-  opacity: 0.6;
+  color: #1e1e1e;
 }

@@ -16,13 +16,9 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
 
       {/* Content */}
       <div className="flex flex-col gap-10">
-        {/* HERO */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-tight uppercase">
-          Dot & Cross is a strategy-first agency that helps brands find their voice and build clarity.
-        </h1>
-
         {/* BODY */}
-        <p className="text-lg sm:text-xl md:text-medium leading-relaxed max-w-4xl">
+        <p className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium leading-tight 0 px-1">
+          Dot & Cross is a strategy-first agency that helps brands find their voice and build clarity.
           Brands don’t start out wanting to blend in. But somewhere between the pressure to fit the mold 
           and the fear of being overlooked, many begin to mirror each other.
           <br /><br />
@@ -39,7 +35,7 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
             onClose(); // Close About overlay
             onFindYourWay(); // Open Contact/Capabilities overlay
           }}
-          className="inline-block text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1e1e1e] border-b-2 border-[#1e1e1e] hover:opacity-80 transition-opacity duration-200 w-fit"
+          className="inline-block text-5xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-medium leading-tight 0 px-1 w-fit"
         >
           Find Your Way →
         </button>
