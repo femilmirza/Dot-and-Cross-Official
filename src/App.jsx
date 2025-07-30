@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -13,9 +13,14 @@ import Philosophy from "./Philosophy";
 
 const FloatingCircles = ({ count = 10 }) => {
   const [circles, setCircles] = useState([]);
-  const mouse = React.useRef({ x: null, y: null });
+  const [height, setHeight] = useState(window.innerHeight * 2);
+  const mouse = useRef({ x: null, y: null });
+  const animationRef = useRef(null);
 
-  const getRandomPosition = React.useCallback(
+  // 👉 Smooth interpolation function
+  const lerp = (start, end, factor) => start + (end - start) * factor;
+
+  const getRandomPosition = useCallback(
     () => ({
       x: Math.random() * (window.innerWidth - 40),
       y: Math.random() * (window.innerHeight * 2 - 40),
@@ -36,19 +41,27 @@ const FloatingCircles = ({ count = 10 }) => {
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
+  // Update height dynamically
+  useEffect(() => {
+    const updateHeight = () => setHeight(window.innerHeight * 2);
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
   useEffect(() => {
     function spawnCircles() {
       setCircles(
-        Array.from({ length: count }).map(() => ({
-          id: Math.random(),
-          pos: getRandomPosition(),
-          dir: {
-            dx: (Math.random() - 0.5) * 1.2,
-            dy: (Math.random() - 0.5) * 1.2,
-          },
-          color: getRandomColor(),
-          repel: false,
-        }))
+        Array.from({ length: count }).map(() => {
+          const angle = Math.random() * Math.PI * 2;
+          return {
+            id: Math.random(),
+            pos: getRandomPosition(),
+            dir: { dx: Math.cos(angle), dy: Math.sin(angle) },
+            speed: 0.15,
+            color: getRandomColor(),
+            repel: false,
+          };
+        })
       );
     }
     spawnCircles();
@@ -57,41 +70,62 @@ const FloatingCircles = ({ count = 10 }) => {
   }, [count, getRandomPosition]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const animate = () => {
       setCircles((prev) =>
         prev.map((c) => {
           let { x, y } = c.pos;
           let { dx, dy } = c.dir;
+          let { speed } = c;
 
-          if (c.repel && mouse.current.x !== null && mouse.current.y !== null) {
+          // Smooth speed change
+          const targetSpeed = c.repel ? 12 : 0.04;
+          speed = lerp(speed, targetSpeed, 0.04);
+
+          // Mouse repel effect
+          if (c.repel && mouse.current.x && mouse.current.y) {
             const distX = x + 20 - mouse.current.x;
             const distY = y + 20 - mouse.current.y;
             const dist = Math.sqrt(distX * distX + distY * distY);
-            if (dist < 120 && dist > 0) {
-              dx += (distX / dist) * 0.1;
-              dy += (distY / dist) * 0.1;
+
+            if (dist < 150 && dist > 10) {
+              dx += (distX / dist) * 0.9;
+              dy += (distY / dist) * 0.9;
             }
           }
 
-          x += dx;
-          y += dy;
+          // Normalize direction
+          const mag = Math.sqrt(dx * dx + dy * dy) || 1;
+          dx /= mag;
+          dy /= mag;
 
-          if (x <= 0 || x >= window.innerWidth - 40) dx *= -1;
-          if (y <= 0 || y >= window.innerHeight * 2 - 40) dy *= -1;
+          // Smooth position change
+          x = lerp(x, x + dx * speed * 100, 0.04);
+          y = lerp(y, y + dy * speed * 100, 0.04);
+
+          // Bounce off edges with clamp
+          if (x <= 0 || x >= window.innerWidth - 40) {
+            dx *= -1;
+            x = Math.max(0, Math.min(x, window.innerWidth - 40));
+          }
+          if (y <= 0 || y >= window.innerHeight * 2 - 40) {
+            dy *= -1;
+            y = Math.max(0, Math.min(y, window.innerHeight * 2 - 40));
+          }
 
           return {
             ...c,
-            pos: {
-              x: Math.max(0, Math.min(x, window.innerWidth - 40)),
-              y: Math.max(0, Math.min(y, window.innerHeight * 2 - 40)),
-            },
+            pos: { x, y },
             dir: { dx, dy },
+            speed,
           };
         })
       );
-    }, 16);
 
-    return () => clearInterval(interval);
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationRef.current);
   }, []);
 
   const handleMouseMove = (e) => {
@@ -126,11 +160,7 @@ const FloatingCircles = ({ count = 10 }) => {
   return (
     <div
       className="absolute top-0 left-0 pointer-events-none z-10"
-      style={{
-        width: "100vw",
-        height: window.innerHeight * 2,
-        overflow: "hidden",
-      }}
+      style={{ width: "100vw", height, overflow: "hidden" }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -172,9 +202,7 @@ const Line = ({ text, onClick, isLink = false }) => {
 
   return (
     <div
-      className={`relative ${
-        interactive ? "inline-block" : "block"
-      } w-full overflow-hidden`}
+      className={`relative ${interactive ? "inline-block" : "block"} w-full overflow-hidden`}
     >
       <div
         onClick={interactive ? onClick : undefined}
@@ -193,18 +221,18 @@ const Home = () => {
   const [showCapabilities, setShowCapabilities] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.body.style.overflow =
       showContact || showCapabilities || showAbout ? "hidden" : "auto";
   }, [showContact, showCapabilities, showAbout]);
 
-  const navigate = useNavigate();
-
   return (
     <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair transition-all duration-700 ease-in-out px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
       {/* Header Lines */}
-      <Line text="DOT &" onClick={() => window.location.reload(true)} isLink={true} />
-      <Line text="CROSS " onClick={() => window.location.reload(true)} isLink={true} />
+      <Line text="DOT &" onClick={() => navigate("/")} isLink={true} />
+      <Line text="CROSS" onClick={() => navigate("/")} isLink={true} />
       <Line text="ABOUT" onClick={() => setShowAbout(true)} isLink={true} />
       {/* Link to Philosophy Page */}
       <Line text="PHILOSOPHY" onClick={() => navigate("/philosophy")} isLink={true} />
