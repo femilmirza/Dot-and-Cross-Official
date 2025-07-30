@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "./BrandCapabilities.css";
 import "@fontsource/inter/900.css";
 
 const capabilitiesData = [
   {
     id: "fullSpectrum",
     title: "Full-Spectrum Branding",
+    color: "#83cdb8",
     description:
       "Ideal for start-ups and scale-ups for a durable, investor-ready brand from the ground up.",
     items: [
@@ -21,6 +21,7 @@ const capabilitiesData = [
   {
     id: "launchReady",
     title: "Launch-Ready Branding",
+    color: "#f36c21",
     description:
       "Tailored for bold ideas on the brink of reveal that need instant credibility and a killer pitch.",
     items: [
@@ -35,6 +36,7 @@ const capabilitiesData = [
   {
     id: "claritySessions",
     title: "Brand Clarity Sessions",
+    color: "#42b7e9",
     description:
       "Great for founders and teams who want quick clarity, direction, or even just validation.",
     items: [
@@ -46,6 +48,7 @@ const capabilitiesData = [
   {
     id: "onDemand",
     title: "On-Demand Collateral",
+    color: "#f4eb27",
     description:
       "Popular asks: Pitch decks, social media graphics, branded swag, packaging, event designs, and one-off design requests. Pick a bundle or build your own.",
     items: [],
@@ -62,16 +65,16 @@ const BrandCapabilities = ({ onClose }) => {
 
   return (
     <motion.div
-      className="page-bg pt-[100px] flex flex-col justify-between min-h-screen"
+      className="fixed top-0 left-0 bg-white text-[#1e1e1e] w-full h-full flex flex-col justify-between overflow-y-auto z-50 pt-[100px]"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 30 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Black bar background */}
+      {/* Black top bar */}
       <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
 
-      {/* Clickable & symbol (Home button) */}
+      {/* & Home button */}
       <div
         onClick={onClose}
         className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
@@ -82,7 +85,7 @@ const BrandCapabilities = ({ onClose }) => {
       <div className="w-full px-4">
         {/* Title */}
         <motion.h1
-          className="inline-block text-fluid font-black uppercase tracking-tight leading-[-0.75] text-[#1e1e1e] mb-6"
+          className="inline-block text-fluid font-black uppercase tracking-tight leading-[0.9] text-[#1e1e1e] mb-6"
           initial={{ x: -40, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -90,43 +93,45 @@ const BrandCapabilities = ({ onClose }) => {
           OUR CAPABILITIES
         </motion.h1>
 
-        {/* CTA Button (moved just below title) */}
+        {/* CTA Button */}
         <motion.div
           onClick={() =>
             window.open("https://calendly.com/femita-dotandcross/", "_blank")
           }
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="inline-block text-2xl md:text-3xl font-black tracking-tight uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-10"
+          className="inline-block text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-10"
         >
           BOOK A FREE DISCOVERY CALL
         </motion.div>
 
         {/* Accordion */}
-        <div className="accordion-container">
+        <div className="flex flex-col gap-4 w-full">
           {capabilitiesData.map((section) => {
             const isActive = activeId === section.id;
             const isHovered = hoveredId === section.id;
 
             return (
-              <div key={section.id} className="accordion-item w-full">
+              <div key={section.id} className="w-full border-b border-gray-300">
                 <motion.button
                   layout
-                  className={`accordion-header w-full ${
-                    isActive || isHovered ? "active-header" : ""
-                  }`}
+                  className={`w-full flex justify-between items-center font-extrabold uppercase text-[#1e1e1e] transition-all duration-300 px-1 py-4`}
+                  style={{
+                    backgroundColor: isActive || isHovered ? section.color : "transparent",
+                    color: isActive || isHovered ? "#1e1e1e" : "#1e1e1e",
+                  }}
                   onClick={() => toggleSection(section.id)}
                   onMouseEnter={() => setHoveredId(section.id)}
                   onMouseLeave={() => setHoveredId(null)}
                   initial={false}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <span className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium leading-tight px-1">
+                  <span className="text-4xl sm:text-5xl md:text-6xl font-medium leading-tight">
                     {section.title}
                   </span>
                   <motion.svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 ml-2"
+                    className="w-6 h-6 ml-2"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -142,6 +147,7 @@ const BrandCapabilities = ({ onClose }) => {
                   </motion.svg>
                 </motion.button>
 
+                {/* Accordion body */}
                 <AnimatePresence initial={false}>
                   {isActive && (
                     <motion.div
@@ -155,7 +161,7 @@ const BrandCapabilities = ({ onClose }) => {
                         damping: 20,
                         opacity: { duration: 0.3 },
                       }}
-                      className="accordion-body w-full"
+                      className="w-full"
                     >
                       <motion.p
                         className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium leading-tight px-1"
@@ -196,7 +202,7 @@ const BrandCapabilities = ({ onClose }) => {
       <div className="px-4 pb-4">
         <div
           onClick={onClose}
-          className="text-fluid font-black uppercase tracking-tight leading-[-1.259] text-[#B3B3B3] cursor-pointer inline-block relative group"
+          className="text-fluid font-black uppercase tracking-tight text-[#B3B3B3] cursor-pointer inline-block"
         >
           BACK
         </div>

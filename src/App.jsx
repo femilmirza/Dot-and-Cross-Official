@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import "./index.css";
 import BrandCapabilities from "./BrandCapabilities";
 import AboutUs from "./AboutUs";
+import Philosophy from "./Philosophy";
 
 const FloatingCircles = ({ count = 10 }) => {
   const [circles, setCircles] = useState([]);
@@ -181,7 +188,7 @@ const Line = ({ text, onClick, isLink = false }) => {
   );
 };
 
-const App = () => {
+const Home = () => {
   const [showContact, setShowContact] = useState(false);
   const [showCapabilities, setShowCapabilities] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -191,13 +198,16 @@ const App = () => {
       showContact || showCapabilities || showAbout ? "hidden" : "auto";
   }, [showContact, showCapabilities, showAbout]);
 
+  const navigate = useNavigate();
+
   return (
     <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair transition-all duration-700 ease-in-out px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
       {/* Header Lines */}
       <Line text="DOT &" onClick={() => window.location.reload(true)} isLink={true} />
-      <Line text="CROSS "onClick={() => window.location.reload(true)} isLink={true}/>
+      <Line text="CROSS " onClick={() => window.location.reload(true)} isLink={true} />
       <Line text="ABOUT" onClick={() => setShowAbout(true)} isLink={true} />
-      <Line text="PHILOSOPHY" />
+      {/* Link to Philosophy Page */}
+      <Line text="PHILOSOPHY" onClick={() => navigate("/philosophy")} isLink={true} />
       <Line
         text="CAPABILITIES"
         onClick={() => setShowCapabilities(true)}
@@ -214,24 +224,19 @@ const App = () => {
           We don’t brand for attention ——<br />
           We brand for alignment.
         </p>
-        <p> © {new Date().getFullYear()} Dot&Cross. All rights reserved. </p>
+        <p> © {new Date().getFullYear()} DOTANDCROSS. All rights reserved. </p>
       </div>
 
       {/* Contact Overlay */}
       {showContact && (
         <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-4 pt-[120px] overflow-y-auto">
-          {/* Black bar */}
           <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
-
-          {/* Home & symbol */}
           <div
             onClick={() => setShowContact(false)}
             className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
           >
             &amp;
           </div>
-
-          {/* Contact Info */}
           <div className="flex flex-col items-start gap-1">
             <a
               href="mailto:hi@dotandcross.agency"
@@ -254,8 +259,6 @@ const App = () => {
               MBZ City, Abu Dhabi, UAE
             </a>
           </div>
-
-          {/* BACK Button */}
           <div
             onClick={() => setShowContact(false)}
             className="inline-block overflow-visible mt-10"
@@ -286,6 +289,17 @@ const App = () => {
         />
       )}
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/philosophy" element={<Philosophy />} />
+      </Routes>
+    </Router>
   );
 };
 
