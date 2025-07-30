@@ -68,8 +68,8 @@ const FloatingCircles = ({ count = 10 }) => {
             const distY = y + 20 - mouse.current.y;
             const dist = Math.sqrt(distX * distX + distY * distY);
             if (dist < 120 && dist > 0) {
-              dx += (distX / dist) * 0.2;
-              dy += (distY / dist) * 0.2;
+              dx += (distX / dist) * 0.1;
+              dy += (distY / dist) * 0.1;
             }
           }
 

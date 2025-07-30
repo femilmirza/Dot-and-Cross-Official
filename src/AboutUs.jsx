@@ -17,8 +17,9 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
       {/* Content */}
       <div className="flex flex-col gap-10">
         {/* BODY */}
-        <p className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium leading-tight 0 px-1">
+        <p className="inline-block text-4xl sm:text-5xl md:text-6xl font-medium leading-tight 0 px-1">
           Dot & Cross is a strategy-first agency that helps brands find their voice and build clarity.
+          <br /><br />
           Brands don’t start out wanting to blend in. But somewhere between the pressure to fit the mold 
           and the fear of being overlooked, many begin to mirror each other.
           <br /><br />

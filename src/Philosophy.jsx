@@ -19,30 +19,60 @@ const Philosophy = () => {
 
       {/* Philosophy Content */}
       <div className="flex flex-col mt-8 mb-10">
-        <div className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium tracking-tight px-1 space-y-8">
+        <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-10">
+          
           <p>
-            <u>Authenticity is the strongest magnet</u> <br />
-            Authenticity is a brand's true self, unfiltered by trends or borrowed identities.
+            <span className="font-medium underline">
+              Authenticity is the strongest magnet
+            </span>{" "}
+            <br />
+            <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              Authenticity is a brand's true self, unfiltered by trends or borrowed identities.
+            </span>
           </p>
+
           <p>
-            <u>Honesty always wins.</u> <br />
-            The strongest brand story is the one that’s true.
+            <span className="font-medium underline">
+              Honesty always wins.
+            </span>{" "}
+            <br />
+            <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              The strongest brand story is the one that’s true.
+            </span>
           </p>
+
           <p>
-            <u>Purpose is Power</u><br />
-            A brand without true purpose is merely a business. Its real strength comes from a genuine reason for being, driving every action and connection.
+            <span className="font-medium underline">Purpose is Power</span>
+            <br />
+            <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              A brand without true purpose is merely a business. Its real strength comes from a genuine reason for being, driving every action and connection.
+            </span>
           </p>
+
           <p>
-            <u>It starts within</u> <br />
-            A brand's external voice is only as strong as its internal alignment. Real power comes from a shared purpose, lived by everyone, not just declared outwardly.
+            <span className="font-medium underline">It starts within</span>
+            <br />
+            <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              A brand's external voice is only as strong as its internal alignment. Real power comes from a shared purpose, lived by everyone, not just declared outwardly.
+            </span>
           </p>
+
           <p>
-            <u>50/50</u> <br />
-            Branding is a decision-making tool. We’ll do our half–Strategy, clarity and direction. The rest is yours to live.
+            <span className="font-medium underline">50/50</span>
+            <br />
+            <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              Branding is a decision-making tool. We’ll do our half–Strategy, clarity and direction. The rest is yours to live.
+            </span>
           </p>
+
           <p>
-            <u>Humans are intuitive and emotional so are brands</u> <br />
-            People connect with feeling, not formulas. Brands should do the same. When they tap into genuine emotion, they forge a bond that goes far deeper than any calculated strategy.
+            <span className="font-medium underline">
+              Humans are intuitive and emotional so are brands
+            </span>
+            <br />
+            <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              People connect with feeling, not formulas. Brands should do the same. When they tap into genuine emotion, they forge a bond that goes far deeper than any calculated strategy.
+            </span>
           </p>
         </div>
       </div>
@@ -50,9 +80,9 @@ const Philosophy = () => {
       {/* BACK Button */}
       <div
         onClick={() => navigate("/")}
-        className="inline-block overflow-visible mt-10 mb-10"
+        className="inline-block overflow-visible mb-10"
       >
-        <div className="text-fluid font-black font-inter uppercase tracking-tight leading-[0.25] text-[#B3B3B3] cursor-pointer inline-block">
+        <div className="text-fluid font-black uppercase tracking-tight leading-[-0.75] text-[#B3B3B3] cursor-pointer inline-block">
           BACK
         </div>
       </div>
