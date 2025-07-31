@@ -28,3 +28,18 @@ body {
   background-position: right top;
   background-attachment: fixed;
 }
+/* Hide scrollbar for Chrome, Safari and Edge */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Ensure the element is still scrollable */
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
