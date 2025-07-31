@@ -17,7 +17,6 @@ const FloatingCircles = ({ count = 10 }) => {
   const mouse = useRef({ x: null, y: null });
   const animationRef = useRef(null);
 
-  // 👉 Smooth interpolation function
   const lerp = (start, end, factor) => start + (end - start) * factor;
 
   const getRandomPosition = useCallback(
@@ -41,7 +40,6 @@ const FloatingCircles = ({ count = 10 }) => {
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  // Update height dynamically
   useEffect(() => {
     const updateHeight = () => setHeight(window.innerHeight * 2);
     window.addEventListener("resize", updateHeight);
@@ -77,11 +75,9 @@ const FloatingCircles = ({ count = 10 }) => {
           let { dx, dy } = c.dir;
           let { speed } = c;
 
-          // Smooth speed change
           const targetSpeed = c.repel ? 12 : 0.04;
           speed = lerp(speed, targetSpeed, 0.04);
 
-          // Mouse repel effect
           if (c.repel && mouse.current.x && mouse.current.y) {
             const distX = x + 20 - mouse.current.x;
             const distY = y + 20 - mouse.current.y;
@@ -93,16 +89,13 @@ const FloatingCircles = ({ count = 10 }) => {
             }
           }
 
-          // Normalize direction
           const mag = Math.sqrt(dx * dx + dy * dy) || 1;
           dx /= mag;
           dy /= mag;
 
-          // Smooth position change
           x = lerp(x, x + dx * speed * 100, 0.04);
           y = lerp(y, y + dy * speed * 100, 0.04);
 
-          // Bounce off edges with clamp
           if (x <= 0 || x >= window.innerWidth - 40) {
             dx *= -1;
             x = Math.max(0, Math.min(x, window.innerWidth - 40));
@@ -201,14 +194,12 @@ const Line = ({ text, onClick, isLink = false }) => {
   };
 
   return (
-    <div
-      className={`relative ${interactive ? "inline-block" : "block"} w-full overflow-hidden`}
-    >
+    <div className="relative overflow-hidden">
       <div
         onClick={interactive ? onClick : undefined}
-        className={`text-fluid font-black uppercase tracking-tight leading-[0.75] transition-opacity duration-300 ${
-          interactive ? "hover-fade cursor-pointer inline-block" : ""
-        }`}
+        className={`font-black uppercase tracking-tight leading-[0.75]
+        text-[15vw] whitespace-nowrap
+        ${interactive ? "hover-fade cursor-pointer inline-block" : ""}`}
       >
         {renderText()}
       </div>
@@ -229,18 +220,13 @@ const Home = () => {
   }, [showContact, showCapabilities, showAbout]);
 
   return (
-    <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair transition-all duration-700 ease-in-out px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
+    <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
       {/* Header Lines */}
-      <Line text="DOT &" onClick={() => navigate("/")} isLink={true} />
-      <Line text="CROSS" onClick={() => navigate("/")} isLink={true} />
+      <Line text="DOT &" onClick={() => window.location.reload()} isLink={true} />
+      <Line text="CROSS" onClick={() => window.location.reload()} isLink={true} />
       <Line text="ABOUT" onClick={() => setShowAbout(true)} isLink={true} />
-      {/* Link to Philosophy Page */}
       <Line text="PHILOSOPHY" onClick={() => navigate("/philosophy")} isLink={true} />
-      <Line
-        text="CAPABILITIES"
-        onClick={() => setShowCapabilities(true)}
-        isLink={true}
-      />
+      <Line text="CAPABILITIES" onClick={() => setShowCapabilities(true)} isLink={true} />
       <Line text="CONTACT" onClick={() => setShowContact((v) => !v)} />
 
       {/* Floating Circles */}
@@ -291,7 +277,7 @@ const Home = () => {
             onClick={() => setShowContact(false)}
             className="inline-block overflow-visible mt-10"
           >
-            <div className="text-fluid font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
+            <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
               BACK
             </div>
           </div>
