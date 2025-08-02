@@ -22,9 +22,9 @@ const capabilitiesData = [
     description:
       "Perfect for established brands seeking a modern look and sharper messaging.",
     items: [
-      "◉ Refreshed logo mark, color palette and typography",
-      "◉ Collateral pack: business cards, stationery and mock-ups",
-      "◉ Compact style guide with key do’s and don’ts",
+      "◉ Refreshed logo mark, color palette and typography\n",
+      "◉ Collateral pack: business cards, stationery and mock-ups\n",
+      "◉ Compact style guide with key do’s and don’ts\n",
     ],
   },
   {
@@ -34,12 +34,12 @@ const capabilitiesData = [
     description:
       "Tailored for bold ideas on the brink of reveal that need instant credibility and a killer pitch.",
     items: [
-      "◉ Brand health check: audit of what’s working and what’s not",
-      "◉ Opportunity map: where to stand out or lean in",
-      "◉ Updated foundation: mission, values, tone and story",
-      "◉ Visual tune-up: logo, colors, fonts and design language",
-      "◉ Key assets: refreshed homepage, pitch deck and social templates",
-      "◉ Roll-out plan: GTM strategy and internal onboarding",
+      "◉ Brand health check: audit of what’s working and what’s not\n",
+      "◉ Opportunity map: where to stand out or lean in\n",
+      "◉ Updated foundation: mission, values, tone and story\n",
+      "◉ Visual tune-up: logo, colors, fonts and design language\n",
+      "◉ Key assets: refreshed homepage, pitch deck and social templates\n",
+      "◉ Roll-out plan: GTM strategy and internal onboarding\n",
     ],
   },
   {
@@ -64,7 +64,7 @@ const capabilitiesData = [
     description:
       "Tailored to ventures on the brink of launch that need instant credibility and a compelling pitch.",
     items: [
-      " Includes everything in Full-Spectrum Branding, plus:",
+      "Includes everything in Full-Spectrum Branding, plus:",
       "◉ Name checks and trademark screening",
       "◉ Custom pitch deck aligned to your story",
       "◉ Launch-day templates: social posts and email signature",
@@ -139,7 +139,7 @@ const BrandCapabilities = ({ onClose }) => {
                   initial={false}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <span className="text-4xl sm:text-5xl md:text-6xl font-medium leading-tight">
+                  <span className="text-4xl sm:text-3xl md:text-6xl font-medium leading-tight">
                     {section.title}
                   </span>
                   <motion.svg
@@ -177,7 +177,7 @@ const BrandCapabilities = ({ onClose }) => {
                       className="w-full"
                     >
                       <motion.p
-                        className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium leading-tight px-1"
+                        className="inline-block text-2xl sm:text-2xl md:text-4xl font-medium leading-tight px-1"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -189,7 +189,7 @@ const BrandCapabilities = ({ onClose }) => {
                         {section.items.map((item, idx) => (
                           <motion.li
                             key={idx}
-                            className="inline-block text-2xl sm:text-3xl md:text-4xl font-medium leading-tight px-1"
+                            className="block text-2xl sm:text-3xl md:text-4xl font-medium leading-tight px-1 mb-2"
                             initial={{ opacity: 0, x: -15 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
