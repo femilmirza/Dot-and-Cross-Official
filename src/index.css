@@ -11,11 +11,6 @@ body {
   font-family: 'Clash Grotesk', sans-serif;
 }
 
-.text-fluid {
-  font-size: clamp(5rem, 38vw, 14rem); /* Bigger for DOT & CROSS */
-  line-height: 1;
-}
-
 .font-inter {
   font-family: 'Inter', sans-serif;
   font-weight: 700;

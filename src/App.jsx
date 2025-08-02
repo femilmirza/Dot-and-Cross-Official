@@ -318,48 +318,54 @@ const Home = () => {
         <p> © {new Date().getFullYear()} DOT&CROSS. All rights reserved. </p>
       </div>
 
-      {/* Contact Overlay */}
-      {showContact && (
-        <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-4 pt-[120px] overflow-y-auto">
-          <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
-          <div
-            onClick={() => setShowContact(false)}
-            className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
-          >
-            &amp;
-          </div>
-          <div className="flex flex-col items-start gap-1">
-            <a
-              href="mailto:hi@dotandcross.agency"
-              className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 px-1"
-            >
-              hi@dotandcross.agency
-            </a>
-            <a
-              href="tel:+971521612390"
-              className="inline-block text-5xl sm:text-6xl md:text-7xl font-medium leading-tight px-1 hover:opacity-80 transition-opacity duration-200"
-            >
-              +971 52 161 2390
-            </a>
-            <a
-              href="https://maps.app.goo.gl/F79xDWS4qsbTLUL5A"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-5xl sm:text-6xl md:text-7xl font-medium px-1 inline-block hover:opacity-80 transition-opacity duration-200"
-            >
-              MBZ City, Abu Dhabi, UAE
-            </a>
-          </div>
-          <div
-            onClick={() => setShowContact(false)}
-            className="inline-block overflow-visible mt-10"
-          >
-            <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
-              BACK
-            </div>
-          </div>
-        </div>
-      )}
+{showContact && (
+  <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col px-4 pt-20 sm:pt-28 overflow-y-auto">
+    {/* Header Bar */}
+    <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e]"></div>
+
+    {/* Close Button */}
+    <div
+      onClick={() => setShowContact(false)}
+      className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+    >
+      &amp;
+    </div>
+
+    {/* Contact Details */}
+    <div className="flex flex-col items-start gap-1sm:mt-20 mb-20" >
+      <a
+        href="mailto:hi@dotandcross.agency"
+        className="block text-3xl sm:text-4xl md:text-7xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 px-1 break-words"
+      >
+        hi@dotandcross.agency
+      </a>
+      <a
+        href="tel:+971521612390"
+        className="block text-3xl sm:text-4xl md:text-7xl font-medium leading-tight px-1 hover:opacity-80 transition-opacity duration-200"
+      >
+        +971 52 161 2390
+      </a>
+      <a
+        href="https://maps.app.goo.gl/F79xDWS4qsbTLUL5A"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block text-3xl sm:text-4xl md:text-7xl font-medium px-1 hover:opacity-80 transition-opacity duration-200"
+      >
+        MBZ City, Abu Dhabi, UAE
+      </a>
+    </div>
+
+    {/* Back Button - same as original */}
+    <div
+      onClick={() => setShowContact(false)}
+      className="inline-block overflow-visible mt-10 mb-8 px-1"
+    >
+      <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
+        BACK
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Capabilities Overlay */}
       {showCapabilities && (
