@@ -27,7 +27,7 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
       let { dx, dy } = circle.dir;
       let speed = circle.speed;
 
-      // Speed adjustment
+      // Smooth speed transition
       const targetSpeed = circle.repel ? 12 : 0.08;
       speed += (targetSpeed - speed) * 0.04;
       circle.speed = speed;
@@ -39,34 +39,43 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
         const dist = Math.sqrt(distX * distX + distY * distY);
 
         if (dist < 150 && dist > 10) {
-          const force = 0.9 / dist;
+          const force = 25 / dist;
           dx += distX * force;
           dy += distY * force;
         }
       }
 
-      // Circle-to-circle collision physics
+      // Circle-to-circle collision physics (mutual displacement)
       allCircles.forEach((other) => {
         if (other.id !== circle.id) {
-          const otherX = other.pos.x + 20;
-          const otherY = other.pos.y + 20;
           const currentCenterX = currentX + 20;
           const currentCenterY = currentY + 20;
+          const otherCenterX = other.pos.x + 20;
+          const otherCenterY = other.pos.y + 20;
 
-          const distX = currentCenterX - otherX;
-          const distY = currentCenterY - otherY;
+          const distX = currentCenterX - otherCenterX;
+          const distY = currentCenterY - otherCenterY;
           const distance = Math.sqrt(distX * distX + distY * distY);
-          const minDistance = 45;
+          const minDistance = 50;
 
           if (distance < minDistance && distance > 0) {
-            const overlap = minDistance - distance;
-            const separationForce = overlap * 0.3;
+            const overlap = (minDistance - distance) / 2;
 
-            const separationX = (distX / distance) * separationForce;
-            const separationY = (distY / distance) * separationForce;
+            // Normalized direction
+            const nx = distX / distance;
+            const ny = distY / distance;
 
-            dx += separationX * 0.1;
-            dy += separationY * 0.1;
+            // Displace both circles equally
+            circle.pos.x += nx * overlap;
+            circle.pos.y += ny * overlap;
+            other.pos.x -= nx * overlap;
+            other.pos.y -= ny * overlap;
+
+            // Add small bounce to direction
+            circle.dir.dx += nx * 0.2;
+            circle.dir.dy += ny * 0.2;
+            other.dir.dx -= nx * 0.2;
+            other.dir.dy -= ny * 0.2;
           }
         }
       });
@@ -77,11 +86,11 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
       dy /= mag;
       circle.dir = { dx, dy };
 
-      // Calculate new position
+      // Calculate new position (allow free movement)
       const moveX = dx * speed * 4;
       const moveY = dy * speed * 4;
-      const newX = currentX + moveX * 0.6;
-      const newY = currentY + moveY * 0.6;
+      const newX = currentX + moveX;
+      const newY = currentY + moveY;
 
       // Boundary collision
       const windowWidth = window.innerWidth;
@@ -103,7 +112,6 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
       circle.pos.x = finalX;
       circle.pos.y = finalY;
 
-      // Set position in motion value
       x.set(finalX);
       y.set(finalY);
 

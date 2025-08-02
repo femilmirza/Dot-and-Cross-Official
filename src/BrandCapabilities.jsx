@@ -4,54 +4,88 @@ import "@fontsource/inter/900.css";
 
 const capabilitiesData = [
   {
-    id: "fullSpectrum",
-    title: "Full-Spectrum Branding",
-    color: "#83cdb8",
+    id: "BrandClaritySessions",
+    title: "BRAND CLARITY SESSIONS",
+    color: "#f4eb27",
     description:
-      "Ideal for start-ups and scale-ups for a durable, investor-ready brand from the ground up.",
+      "Designed for founders and teams needing quick clarity, direction or validation.",
     items: [
-      "◉ Brand Strategy: Define your purpose, vision, and values.",
-      "◉ Verbal Identity: Craft your brand story, tone of voice, key messages, and tagline.",
-      "◉ Visual Identity System: Your logo set, color palette, typography, etc.",
-      "◉ Brand Playbook: A clear guide on how to use your brand correctly.",
-      "◉ Digital Starter Kit: Social media templates, website, email signatures.",
-      "◉ Roll-out Support: Help with getting your brand live.",
+      "◉ Pulse Call (60 min): Focused chat on one challenge, plus a bullet-point summary",
+      "◉ Clarity Sprint (3–4 h): Pre-survey, guided workshop and a 1-page brand blueprint",
+      "◉ Clarity Intensive (full day): Everything in the Sprint, plus customer profiles, competitor map and team-alignment deck",
     ],
   },
   {
-    id: "launchReady",
-    title: "Launch-Ready Branding",
+    id: "brandGlowUp",
+    title: "BRAND GLOW UP",
+    color: "#83cdb8",
+    description:
+      "Perfect for established brands seeking a modern look and sharper messaging.",
+    items: [
+      "◉ Refreshed logo mark, color palette and typography",
+      "◉ Collateral pack: business cards, stationery and mock-ups",
+      "◉ Compact style guide with key do’s and don’ts",
+    ],
+  },
+  {
+    id: "strategicBrandRefresh",
+    title: "STRATEGIC BRAND REFRESH",
     color: "#f36c21",
     description:
       "Tailored for bold ideas on the brink of reveal that need instant credibility and a killer pitch.",
     items: [
-      "◉ Everything in Full-spectrum branding plus:",
-      "◉ Name checks & trademark screening",
-      "◉ Compelling pitch deck",
-      "◉ Templates for your launch: social posts, email signature",
-      "◉ Domain purchase, website design, development and hosting",
+      "◉ Brand health check: audit of what’s working and what’s not",
+      "◉ Opportunity map: where to stand out or lean in",
+      "◉ Updated foundation: mission, values, tone and story",
+      "◉ Visual tune-up: logo, colors, fonts and design language",
+      "◉ Key assets: refreshed homepage, pitch deck and social templates",
+      "◉ Roll-out plan: GTM strategy and internal onboarding",
+    ],
+  },
+  {
+    id: "fullSpectrumBranding",
+    title: "FULL-SPECTRUM BRANDING",
+    color: "#42b7e9",
+    description:
+      "Ideal for start-ups and scale-ups building a durable, investor-ready brand from scratch.",
+    items: [
+      "◉ Strategy: purpose, vision, values, positioning and GTM strategy",
+      "◉ Verbal ID: story arc, tone, messaging pillars and tagline",
+      "◉ Visual system: logo suite, palette, type, icons and imagery style",
+      "◉ Brand playbook: guidelines, do’s and don’ts, plus a launch checklist",
+      "◉ Digital kit: social templates, website framework, email signature and slide styles",
+      "◉ Launch support: go-live checklist and week-of on-call assistance",
+    ],
+  },
+  {
+    id: "launchReadyBranding",
+    title: "LAUNCH-READY BRANDING",
+    color: "#f28d7a",
+    description:
+      "Tailored to ventures on the brink of launch that need instant credibility and a compelling pitch.",
+    items: [
+      " Includes everything in Full-Spectrum Branding, plus:",
+      "◉ Name checks and trademark screening",
+      "◉ Custom pitch deck aligned to your story",
+      "◉ Launch-day templates: social posts and email signature",
+      "◉ Domain registration, website design, development and hosting",
       "◉ Go-live checklist and on-call support during launch week",
     ],
   },
-  {
-    id: "claritySessions",
-    title: "Brand Clarity Sessions",
-    color: "#42b7e9",
+    {
+    id: "onDemandCollateralKits",
+    title: "ON-DEMAND COLLATERAL KITS",
+    color: "#a78bcc",
     description:
-      "Great for founders and teams who want quick clarity, direction, or even just validation.",
+      "Perfect for teams needing fast turn-around on individual design assets.",
     items: [
-      "◉ Pulse Call (60 min): Quick chat to tackle one challenge.",
-      "◉ Clarity Sprint (Half-day): Pre-survey, workshop, 1-page brand summary.",
-      "◉ Clarity Intensive (Full day): Everything in the Sprint + customer profiles.",
+      " Includes everything in Full-Spectrum Branding, plus:",
+      "◉ Pitch decks and proposals",
+      "◉ Social graphics and ad covers",
+      "◉ Branded merchandise, packaging and point-of-sale materials",
+      "◉ Event assets: banners, signage and wayfinding",
+      "◉ Custom one-off design requests",
     ],
-  },
-  {
-    id: "onDemand",
-    title: "On-Demand Collateral",
-    color: "#f4eb27",
-    description:
-      "Popular asks: Pitch decks, social media graphics, branded swag, packaging, event designs, and one-off design requests. Pick a bundle or build your own.",
-    items: [],
   },
 ];
 
@@ -83,30 +117,9 @@ const BrandCapabilities = ({ onClose }) => {
       </div>
 
       <div className="w-full px-4">
-        {/* Title */}
-        <motion.h1
-          className="inline-block text-fluid font-black uppercase tracking-tight leading-[0.9] text-[#1e1e1e] mb-6"
-          initial={{ x: -40, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          OUR CAPABILITIES
-        </motion.h1>
-
-        {/* CTA Button */}
-        <motion.div
-          onClick={() =>
-            window.open("https://calendly.com/femita-dotandcross/", "_blank")
-          }
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-block text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-10"
-        >
-          BOOK A FREE DISCOVERY CALL
-        </motion.div>
 
         {/* Accordion */}
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-6 w-full mt-4">
           {capabilitiesData.map((section) => {
             const isActive = activeId === section.id;
             const isHovered = hoveredId === section.id;
@@ -196,6 +209,19 @@ const BrandCapabilities = ({ onClose }) => {
             );
           })}
         </div>
+
+        {/* CTA Button */}
+        <motion.div
+          onClick={() =>
+            window.open("https://calendly.com/discoverycall-dotandcross/30min", "_blank")
+          }
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-block text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-50 mt-6"
+        >
+          BOOK A FREE DISCOVERY CALL
+        </motion.div>
+        
       </div>
 
       {/* BACK Button */}
