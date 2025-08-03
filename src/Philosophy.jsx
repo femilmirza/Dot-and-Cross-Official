@@ -18,7 +18,7 @@ const Philosophy = () => {
       </div>
 
       {/* Philosophy Content */}
-      <div className="flex flex-col mt-8 mb-10">
+      <div className="flex flex-col gap-10">
         <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-10">
           
           <p>
@@ -80,9 +80,9 @@ const Philosophy = () => {
       {/* BACK Button */}
       <div
         onClick={() => navigate("/")}
-        className="inline-block overflow-visible mb-10"
+        className="inline-block overflow-visible mt-10 mb-8 px-1"
       >
-        <div className="text-fluid font-black uppercase tracking-tight leading-[-0.75] text-[#B3B3B3] cursor-pointer inline-block">
+        <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
           BACK
         </div>
       </div>

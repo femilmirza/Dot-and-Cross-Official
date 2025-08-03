@@ -27,7 +27,9 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
           that repetition dulls their edge. The distinct purpose they were built on, what made them necessary 
           in the first place fades into the background.
           <br /><br />
-          Not because it stopped mattering, but because it got buried under the need to belong. Resonate?
+          Not because it stopped mattering, but because it got buried under the need to belong. 
+          <br /><br />
+          Resonate?
         </p>
 
         {/* BUTTON */}
@@ -43,8 +45,8 @@ const AboutUs = ({ onClose, onFindYourWay }) => {
       </div>
 
       {/* BACK Button */}
-      <div onClick={onClose} className="inline-block overflow-visible mt-10">
-        <div className="text-fluid font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer inline-block">
+      <div onClick={onClose} className="inline-block overflow-visible mt-10 mb-8 px-1">
+        <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
           BACK
         </div>
       </div>

@@ -38,3 +38,32 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.app-wrapper {
+  transform-origin: top center;
+}
+
+.app-wrapper {
+  transform-origin: top center;
+}
+
+/* Scale down on tablets */
+@media (max-width: 1024px) {
+  .app-wrapper {
+    transform: scale(0.85);
+  }
+}
+
+/* Scale down on large mobiles */
+@media (max-width: 768px) {
+  .app-wrapper {
+    transform: scale(0.7);
+  }
+}
+
+/* Scale down on small mobiles */
+@media (max-width: 480px) {
+  .app-wrapper {
+    transform: scale(0.55);
+  }
+}

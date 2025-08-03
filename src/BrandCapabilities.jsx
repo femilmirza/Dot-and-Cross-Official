@@ -225,10 +225,10 @@ const BrandCapabilities = ({ onClose }) => {
       </div>
 
       {/* BACK Button */}
-      <div className="px-4 pb-4">
+      <div className="inline-block overflow-visible mt-10 mb-8 px-1">
         <div
           onClick={onClose}
-          className="text-fluid font-black uppercase tracking-tight text-[#B3B3B3] cursor-pointer inline-block"
+          className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer"
         >
           BACK
         </div>
