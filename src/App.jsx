@@ -27,12 +27,20 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
       let { dx, dy } = circle.dir;
       let speed = circle.speed;
 
-      // Smooth speed transition
-      const targetSpeed = circle.repel ? 12 : 0.08;
+      const isSmallScreen = window.innerWidth <= 768; // treat <= tablet as mobile
+      const targetSpeed = circle.repel 
+      ? isSmallScreen 
+        ? 0.5   // gentle speed for mobile
+        : 12    // full speed for desktop
+      : 0.08;
+
       speed += (targetSpeed - speed) * 0.04;
       circle.speed = speed;
 
-      // Mouse repulsion
+      if (circle.dragging) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
       if (circle.repel && mousePos.x !== null && mousePos.y !== null) {
         const distX = currentX + 20 - mousePos.x;
         const distY = currentY + 20 - mousePos.y;
@@ -45,7 +53,7 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
         }
       }
 
-      // Circle-to-circle collision physics (mutual displacement)
+      // circle-to-circle physics
       allCircles.forEach((other) => {
         if (other.id !== circle.id) {
           const currentCenterX = currentX + 20;
@@ -60,18 +68,14 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
 
           if (distance < minDistance && distance > 0) {
             const overlap = (minDistance - distance) / 2;
-
-            // Normalized direction
             const nx = distX / distance;
             const ny = distY / distance;
 
-            // Displace both circles equally
             circle.pos.x += nx * overlap;
             circle.pos.y += ny * overlap;
             other.pos.x -= nx * overlap;
             other.pos.y -= ny * overlap;
 
-            // Add small bounce to direction
             circle.dir.dx += nx * 0.2;
             circle.dir.dy += ny * 0.2;
             other.dir.dx -= nx * 0.2;
@@ -80,19 +84,16 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
         }
       });
 
-      // Normalize direction
       const mag = Math.sqrt(dx * dx + dy * dy) || 1;
       dx /= mag;
       dy /= mag;
       circle.dir = { dx, dy };
 
-      // Calculate new position (allow free movement)
       const moveX = dx * speed * 4;
       const moveY = dy * speed * 4;
       const newX = currentX + moveX;
       const newY = currentY + moveY;
 
-      // Boundary collision
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight * 2;
 
@@ -108,7 +109,6 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
         finalY = Math.max(0, Math.min(finalY, windowHeight - 40));
       }
 
-      // Update position
       circle.pos.x = finalX;
       circle.pos.y = finalY;
 
@@ -125,29 +125,44 @@ const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCirc
   }, [circle, mousePos, allCircles, x, y]);
 
   return (
-    <motion.div
-      className="absolute rounded-full pointer-events-auto cursor-pointer"
-      style={{
-        x,
-        y,
-        width: 40,
-        height: 40,
-        backgroundColor: circle.color,
-        zIndex: 20,
-      }}
-      whileHover={{
-        scale: 1.1,
-        transition: { type: "spring", stiffness: 400, damping: 15 },
-      }}
-      whileTap={{
-        scale: 0.95,
-        transition: { type: "spring", stiffness: 400, damping: 15 },
-      }}
-      onMouseEnter={() => onHover(circle.id)}
-      onMouseLeave={() => onUnhover(circle.id)}
-      onClick={() => onClick(circle.id)}
-    />
-  );
+  <motion.div
+  className="absolute rounded-full pointer-events-auto cursor-pointer touch-none"
+  style={{
+    x,
+    y,
+    width: 40,
+    height: 40,
+    backgroundColor: circle.color,
+    zIndex: 20,
+  }}
+  whileHover={{
+    scale: 1.1,
+    transition: { type: "spring", stiffness: 400, damping: 15 },
+  }}
+  whileTap={{
+    scale: 0.95,
+    transition: { type: "spring", stiffness: 400, damping: 15 },
+  }}
+  onMouseEnter={() => onHover(circle.id)}
+  onMouseLeave={() => onUnhover(circle.id)}
+  onClick={() => onClick(circle.id)}
+  // ✨ New: enable drag for touch devices
+  drag={window.innerWidth <= 768}
+  dragMomentum={false}
+  dragElastic={0.2}
+  onDragStart={() => {
+    // Stop auto-animation while dragging
+    circle.dragging = true;
+  }}
+  onDragEnd={(e, info) => {
+    // Update final position and re-enable animation
+    circle.pos.x = info.point.x - 20;
+    circle.pos.y = info.point.y - 20;
+    circle.dragging = false;
+  }}
+/>
+
+);
 };
 
 const FloatingCircles = ({ count = 10 }) => {
@@ -183,26 +198,22 @@ const FloatingCircles = ({ count = 10 }) => {
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
-  useEffect(() => {
-    function spawnCircles() {
-      const newCircles = Array.from({ length: count }).map(() => {
-        const angle = Math.random() * Math.PI * 2;
-        return {
-          id: Math.random(),
-          pos: getRandomPosition(),
-          dir: { dx: Math.cos(angle), dy: Math.sin(angle) },
-          speed: 0.15,
-          color: getRandomColor(),
-          repel: false,
-        };
-      });
-      setCircles(newCircles);
-      circlesRef.current = newCircles;
-    }
-    spawnCircles();
-    window.addEventListener("resize", spawnCircles);
-    return () => window.removeEventListener("resize", spawnCircles);
-  }, [count, getRandomPosition]);
+useEffect(() => {
+  // Spawn dots only once (when the component mounts)
+  const newCircles = Array.from({ length: count }).map(() => {
+    const angle = Math.random() * Math.PI * 2;
+    return {
+      id: Math.random(),
+      pos: getRandomPosition(),
+      dir: { dx: Math.cos(angle), dy: Math.sin(angle) },
+      speed: 0.15,
+      color: getRandomColor(),
+      repel: false,
+    };
+  });
+  setCircles(newCircles);
+  circlesRef.current = newCircles;
+}, [count, getRandomPosition]);
 
   const handleMouseMove = (e) => {
     mousePos.current.x = e.clientX;
@@ -271,11 +282,11 @@ const Line = ({ text, onClick, isLink = false }) => {
   };
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden w-full">
       <div
         onClick={interactive ? onClick : undefined}
         className={`font-black uppercase tracking-tight leading-[0.75]
-        text-[16vw] whitespace-nowrap
+        text-[15vw] sm:text-[12vw] md:text-[16vw] whitespace-nowrap
         ${interactive ? "hover-fade cursor-pointer inline-block" : ""}`}
       >
         {renderText()}
@@ -290,7 +301,6 @@ const Home = () => {
   const [showAbout, setShowAbout] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -299,10 +309,10 @@ const Home = () => {
   }, [showContact, showCapabilities, showAbout]);
 
   return (
-    <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair px-1 pt-[1vh] flex flex-col gap-[-0.75em] overflow-hidden">
+    <div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair px-2 pt-[2vh] flex flex-col gap-[0.25em] overflow-hidden">
       {/* Header Lines */}
-      <Line text="DOT &" onClick={() => window.location.reload()} isLink={true} />
-      <Line text="CROSS" onClick={() => window.location.reload()} isLink={true} />
+      <Line text="DOT &" onClick={() => navigate("/")} isLink={true} />
+      <Line text="CROSS" onClick={() => navigate("/")} isLink={true} />
       <Line text="ABOUT" onClick={() => setShowAbout(true)} isLink={true} />
       <Line text="PHILOSOPHY" onClick={() => navigate("/philosophy")} isLink={true} />
       <Line text="CAPABILITIES" onClick={() => setShowCapabilities(true)} isLink={true} />
@@ -313,7 +323,7 @@ const Home = () => {
 
       {/* Footer */}
       <div
-      className="absolute bottom-3 right-1 pr-10 text-xs text-right leading-[0.8] tracking-tight text-[#1e1e1e] opacity-80 indent-10"
+        className="absolute bottom-3 right-1 pr-10 text-xs text-right leading-[0.8] tracking-tight text-[#1e1e1e] opacity-80 indent-10"
       >
         <p>
           We don’t brand for attention ——<br />
@@ -325,11 +335,10 @@ const Home = () => {
             onClick={() => setShowPrivacy(true)}
             className="underline cursor-pointer hover:opacity-80"
           >
-          Privacy Policy
+            Privacy Policy
           </span>
         </p>
       </div>
-
 
       {/* Contact Page */}
       {showContact && (
@@ -340,22 +349,22 @@ const Home = () => {
           {/* Close Button */}
           <div
             onClick={() => setShowContact(false)}
-            className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+            className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
           >
             &amp;
           </div>
 
           {/* Contact Details */}
-          <div className="flex flex-col items-start gap-1 sm:mt-2 mb-2">
+          <div className="flex flex-col items-start gap-1  mt-4 sm:mt-6 md:mt-8 mb-6">
             <a
               href="mailto:hi@dotandcross.agency"
-              className="block text-3xl sm:text-4xl md:text-7xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 px-1 break-words"
+              className="block text-3xl sm:text-4xl md:text-6xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 break-words"
             >
               hi@dotandcross.agency
             </a>
             <a
               href="tel:+971521612390"
-              className="block text-3xl sm:text-4xl md:text-7xl font-medium leading-tight px-1 hover:opacity-80 transition-opacity duration-200"
+              className="block text-3xl sm:text-4xl md:text-6xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200"
             >
               +971 52 161 2390
             </a>
@@ -363,7 +372,7 @@ const Home = () => {
               href="https://maps.app.goo.gl/F79xDWS4qsbTLUL5A"
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-3xl sm:text-4xl md:text-7xl font-medium px-1 hover:opacity-80 transition-opacity duration-200"
+              className="block text-3xl sm:text-4xl md:text-6xl font-medium hover:opacity-80 transition-opacity duration-200"
             >
               MBZ City, Abu Dhabi, UAE
             </a>
@@ -379,8 +388,8 @@ const Home = () => {
               className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1e1e1e] text-white hover:text-[#E4405F] hover:bg-white border border-[#1e1e1e] transition-all duration-300 hover:scale-105"
             >
               {/* Instagram SVG */}
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-              <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-instagram" viewBox="0 0 16 16">
+                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
               </svg>
             </a>
 
@@ -391,7 +400,6 @@ const Home = () => {
               rel="noopener noreferrer"
               className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1e1e1e] text-white hover:text-[#0077B5] hover:bg-white border border-[#1e1e1e] transition-all duration-300 hover:scale-105"
             >
-              {/* LinkedIn SVG */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -399,7 +407,7 @@ const Home = () => {
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path d="M20.447 20.452H16.9v-5.569c0-1.327-.025-3.034-1.85-3.034-1.853 0-2.137 1.445-2.137 2.939v5.664H9.366V9h3.396v1.561h.047c.474-.9 1.637-1.85 3.368-1.85 3.6 0 4.264 2.368 4.264 5.455v6.286zM5.337 7.433a1.978 1.978 0 01-1.98-1.978 1.978 1.978 0 111.98 1.978zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.225.792 24 1.771 24h20.451C23.204 24 24 23.225 24 22.271V1.729C24 .774 23.204 0 22.225 0z" />
+                <path d="M20.447 20.452H16.9v-5.569c0-1.327-.025-3.034-1.85-3.034-1.853 0-2.137 1.445-2.137 2.939v5.664H9.366V9h3.396v1.561h.047c.474-.9 1.637-1.85 3.368-1.85 3.6 0 4.264 2.368 4.264 5.455v6.286zM5.337 7.433a1.978 1.978 0 01-1.98-1.978 1.978 1.978 0 111.98 1.978zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.225.792 24 1.771 24h20.451C23.204 24 24 23.225 24 22.271V1.729C24 .774 23.204 0 22.225 0z"/>
               </svg>
             </a>
           </div>
@@ -409,33 +417,34 @@ const Home = () => {
             onClick={() => setShowContact(false)}
             className="inline-block overflow-visible mt-10 mb-8 px-1"
           >
-            <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
+            <div className="absolute bottom-3 text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
               BACK
             </div>
           </div>
         </div>
       )}
 
+      {/* Privacy Policy */}
       {showPrivacy && (
-  <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col px-4 pt-20 sm:pt-28 overflow-y-auto">
-    <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e]"></div>
-    <div
-      onClick={() => setShowPrivacy(false)}
-      className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
-    >
-      &amp;
-    </div>
-    <div className="flex flex-col gap-6 sm:mt-20 mb-20 px-1 max-w-3xl">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium">
-        Privacy Policy
-      </h1>
-      <p className="text-lg leading-relaxed">
+        <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col px-4 pt-20 sm:pt-28 overflow-y-auto">
+          <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e]"></div>
+          <div
+            onClick={() => setShowPrivacy(false)}
+            className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+          >
+            &amp;
+          </div>
+          <div className="flex flex-col gap-6 sm:mt-20 mb-20 max-w-3xl">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium pt-10 sm:pt-1 md:pt-1">
+              Privacy Policy
+            </h1>
+            <p className="text-lg leading-relaxed">
         DOT & CROSS respects your privacy. We collect only the information
         necessary to respond to inquiries and improve our services. Any data
         shared via contact forms, email, or analytics is never sold or shared
         with third parties, except as required by law.
-      </p>
-      <p className="text-lg leading-relaxed">
+            </p>
+            <p className="text-lg leading-relaxed">
         We use standard web analytics (like Google Analytics) to understand how
         visitors interact with our site. This data is anonymized and used solely
         to improve the experience.
@@ -451,19 +460,17 @@ const Home = () => {
         </a>
         .
       </p>
-    </div>
-    <div
-      onClick={() => setShowPrivacy(false)}
-      className="inline-block overflow-visible mt-10 mb-8 px-1"
-    >
-      <div className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
-        BACK
-      </div>
-    </div>
-  </div>
-)}
-      
-      
+          </div>
+          <div
+            onClick={() => setShowPrivacy(false)}
+            className="inline-block overflow-visible mt-10 mb-8 px-1"
+          >
+            <div className="text-[14vw] sm:text-[10vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer">
+              BACK
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Capabilities Overlay */}
       {showCapabilities && (

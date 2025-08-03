@@ -106,12 +106,12 @@ const BrandCapabilities = ({ onClose }) => {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Black top bar */}
-      <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
+      <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e]"></div>
 
       {/* & Home button */}
       <div
         onClick={onClose}
-        className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+        className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
       >
         &amp;
       </div>
@@ -128,7 +128,7 @@ const BrandCapabilities = ({ onClose }) => {
               <div key={section.id} className="w-full border-b border-gray-300">
                 <motion.button
                   layout
-                  className={`w-full flex justify-between items-center font-extrabold uppercase text-[#1e1e1e] transition-all duration-300 px-1 py-4`}
+                  className={`w-full flex justify-between items-center text-left font-extrabold uppercase text-[#1e1e1e] transition-all duration-300 px-1 py-4`}
                   style={{
                     backgroundColor: isActive || isHovered ? section.color : "transparent",
                     color: isActive || isHovered ? "#1e1e1e" : "#1e1e1e",
@@ -177,7 +177,7 @@ const BrandCapabilities = ({ onClose }) => {
                       className="w-full"
                     >
                       <motion.p
-                        className="inline-block text-2xl sm:text-2xl md:text-4xl font-medium leading-tight px-1"
+                        className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight 0 px-1"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -189,7 +189,7 @@ const BrandCapabilities = ({ onClose }) => {
                         {section.items.map((item, idx) => (
                           <motion.li
                             key={idx}
-                            className="block text-2xl sm:text-3xl md:text-4xl font-medium leading-tight px-1 mb-2"
+                            className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight 0 px-1 mb-2"
                             initial={{ opacity: 0, x: -15 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
@@ -217,7 +217,7 @@ const BrandCapabilities = ({ onClose }) => {
           }
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="inline-block text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-50 mt-6"
+          className="inline-block text-center text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-50 mt-6"
         >
           BOOK A FREE DISCOVERY CALL
         </motion.div>
@@ -225,7 +225,7 @@ const BrandCapabilities = ({ onClose }) => {
       </div>
 
       {/* BACK Button */}
-      <div className="inline-block overflow-visible mt-10 mb-8 px-1">
+      <div className="inline-block overflow-visible mt-10 mb-8 px-6">
         <div
           onClick={onClose}
           className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer"

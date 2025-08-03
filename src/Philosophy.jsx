@@ -7,20 +7,19 @@ const Philosophy = () => {
   return (
     <div className="fixed inset-0 bg-[#F8F8F8] text-[#1e1e1e] z-40 flex flex-col justify-between px-4 pt-[120px] overflow-y-auto">
       {/* Black bar background */}
-      <div className="absolute top-0 left-0 w-full h-[100px] bg-[#1e1e1e]"></div>
+      <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e]"></div>
 
       {/* Clickable & symbol (Home button) */}
       <div
         onClick={() => navigate("/")}
-        className="absolute top-0 left-5 text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+        className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
       >
         &amp;
       </div>
 
       {/* Philosophy Content */}
       <div className="flex flex-col gap-10">
-        <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-10">
-          
+        <div className="inline-block text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight px-1 space-y-5">          
           <p>
             <span className="font-medium underline">
               Authenticity is the strongest magnet
