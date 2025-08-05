@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import "@fontsource/inter/900.css";
+
+const pageVariants = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 30 },
+};
+
+const pageTransition = {
+  duration: 0.18,
+  ease: [0.16, 1, 0.3, 1],
+};
 
 const capabilitiesData = [
   {
@@ -20,11 +32,11 @@ const capabilitiesData = [
     title: "BRAND GLOW UP",
     color: "#83cdb8",
     description:
-      "Perfect for established brands seeking a modern look and sharper messaging.",
+      "Ideal when your visual identity needs to catch up with your growth.",
     items: [
-      "◉ Refreshed logo mark, color palette and typography\n",
-      "◉ Collateral pack: business cards, stationery and mock-ups\n",
-      "◉ Compact style guide with key do’s and don’ts\n",
+      "◉ Refreshed logo mark, color palette and typography",
+      "◉ Collateral pack: business cards, stationery and mock-ups",
+      "◉ Compact style guide with key do’s and don’ts",
     ],
   },
   {
@@ -32,14 +44,14 @@ const capabilitiesData = [
     title: "STRATEGIC BRAND REFRESH",
     color: "#f36c21",
     description:
-      "Tailored for bold ideas on the brink of reveal that need instant credibility and a killer pitch.",
+      "Perfect for established brands seeking a modern look and sharper messaging.",
     items: [
-      "◉ Brand health check: audit of what’s working and what’s not\n",
-      "◉ Opportunity map: where to stand out or lean in\n",
-      "◉ Updated foundation: mission, values, tone and story\n",
-      "◉ Visual tune-up: logo, colors, fonts and design language\n",
-      "◉ Key assets: refreshed homepage, pitch deck and social templates\n",
-      "◉ Roll-out plan: GTM strategy and internal onboarding\n",
+      "◉ Brand health check: audit of what’s working and what’s not",
+      "◉ Opportunity map: where to stand out or lean in",
+      "◉ Updated foundation: mission, values, tone and story",
+      "◉ Visual tune-up: logo, colors, fonts and design language",
+      "◉ Key assets: refreshed homepage, pitch deck and social templates",
+      "◉ Roll-out plan: GTM strategy and internal onboarding",
     ],
   },
   {
@@ -72,14 +84,13 @@ const capabilitiesData = [
       "◉ Go-live checklist and on-call support during launch week",
     ],
   },
-    {
+  {
     id: "onDemandCollateralKits",
     title: "ON-DEMAND COLLATERAL KITS",
     color: "#a78bcc",
     description:
       "Perfect for teams needing fast turn-around on individual design assets.",
     items: [
-      " Includes everything in Full-Spectrum Branding, plus:",
       "◉ Pitch decks and proposals",
       "◉ Social graphics and ad covers",
       "◉ Branded merchandise, packaging and point-of-sale materials",
@@ -89,7 +100,8 @@ const capabilitiesData = [
   },
 ];
 
-const BrandCapabilities = ({ onClose }) => {
+const BrandCapabilities = () => {
+  const navigate = useNavigate();
   const [activeId, setActiveId] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
 
@@ -99,25 +111,20 @@ const BrandCapabilities = ({ onClose }) => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 bg-white text-[#1e1e1e] w-full h-full flex flex-col justify-between overflow-y-auto z-50 pt-[100px]"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-0 bg-white text-[#1e1e1e] flex flex-col justify-between overflow-y-auto pt-[100px] z-40"
     >
-      {/* Black top bar */}
-      <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e]"></div>
+      {/* Black top bar behind the buttons */}
+      <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e] z-[-1]" />
 
       {/* & Home button */}
       <div
-        onClick={onClose}
-        className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+        onClick={() => navigate("/")}
+        className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25] z-50"
       >
         &amp;
       </div>
 
       <div className="w-full px-4">
-
         {/* Accordion */}
         <div className="flex flex-col gap-6 w-full mt-4">
           {capabilitiesData.map((section) => {
@@ -128,10 +135,10 @@ const BrandCapabilities = ({ onClose }) => {
               <div key={section.id} className="w-full border-b border-gray-300">
                 <motion.button
                   layout
-                  className={`w-full flex justify-between items-center text-left font-extrabold uppercase text-[#1e1e1e] transition-all duration-300 px-1 py-4`}
+                  className="w-full flex justify-between items-center text-left font-extrabold uppercase transition-all duration-300 px-1 py-4"
                   style={{
                     backgroundColor: isActive || isHovered ? section.color : "transparent",
-                    color: isActive || isHovered ? "#1e1e1e" : "#1e1e1e",
+                    color: "#1e1e1e",
                   }}
                   onClick={() => toggleSection(section.id)}
                   onMouseEnter={() => setHoveredId(section.id)}
@@ -151,16 +158,10 @@ const BrandCapabilities = ({ onClose }) => {
                     animate={{ rotate: isActive ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </motion.svg>
                 </motion.button>
 
-                {/* Accordion body */}
                 <AnimatePresence initial={false}>
                   {isActive && (
                     <motion.div
@@ -177,7 +178,7 @@ const BrandCapabilities = ({ onClose }) => {
                       className="w-full"
                     >
                       <motion.p
-                        className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight 0 px-1"
+                        className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight px-1"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -189,7 +190,7 @@ const BrandCapabilities = ({ onClose }) => {
                         {section.items.map((item, idx) => (
                           <motion.li
                             key={idx}
-                            className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight 0 px-1 mb-2"
+                            className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight px-1 mb-2"
                             initial={{ opacity: 0, x: -15 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
@@ -217,18 +218,17 @@ const BrandCapabilities = ({ onClose }) => {
           }
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="inline-block text-center text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mb-50 mt-6"
+          className="inline-block text-center text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mt-6 mb-10"
         >
           BOOK A FREE DISCOVERY CALL
         </motion.div>
-        
       </div>
 
       {/* BACK Button */}
       <div className="inline-block overflow-visible mt-10 mb-8 px-6">
         <div
-          onClick={onClose}
-          className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer"
+          onClick={() => navigate("/")}
+          className="text-[13vw] font-black uppercase tracking-tight leading-[1.25] text-[#B3B3B3] cursor-pointer z-50"
         >
           BACK
         </div>
