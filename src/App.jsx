@@ -169,8 +169,8 @@ const pageVariants = {
 };
 
 const pageTransition = {
-  duration: 0.18,
-  ease: [0.16, 1, 0.3, 1],
+  duration: 0.1,
+  ease: [0, 0, 0, 0],
 };
 
 const Line = ({ text, onClick, isLink = false }) => {

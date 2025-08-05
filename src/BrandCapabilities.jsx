@@ -10,8 +10,8 @@ const pageVariants = {
 };
 
 const pageTransition = {
-  duration: 0.18,
-  ease: [0.16, 1, 0.3, 1],
+  duration: 0.1,
+  ease: [0, 0, 0, 0],
 };
 
 const capabilitiesData = [
@@ -173,7 +173,7 @@ const BrandCapabilities = () => {
                         type: "spring",
                         stiffness: 120,
                         damping: 20,
-                        opacity: { duration: 0.3 },
+                        opacity: { duration: 0.1 },
                       }}
                       className="w-full"
                     >
