@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 
 const pageVariants = {
@@ -27,6 +28,12 @@ const Contacts = () => {
       variants={pageVariants}
       transition={pageTransition}
     >
+      <Helmet>
+        <title>Contact – Dot & Cross</title>
+        <meta name="description" content="Get in touch with DOT & CROSS. We're ready to help align your brand with purpose and clarity." />
+        <link rel="canonical" href="https://dotandcross.agency/contact" />
+      </Helmet>
+
       {/* Black top bar behind buttons */}
       <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e] z-[-1]" />
 

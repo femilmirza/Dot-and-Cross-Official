@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const overlayVariants = {
   initial: { opacity: 0, y: 30 },
@@ -25,6 +26,12 @@ const AboutUs = () => {
       exit="exit"
       transition={pageTransition}
     >
+      <Helmet>
+        <title>About Us – Dot & Cross</title>
+        <meta name="description" content="Learn about the team behind DOT & CROSS and our vision for strategic branding." />
+        <link rel="canonical" href="https://dotandcross.agency/about" />
+      </Helmet>
+
       <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e] z-0" />
 
       <div

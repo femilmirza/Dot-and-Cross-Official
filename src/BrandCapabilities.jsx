@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "@fontsource/inter/900.css";
+import { Helmet } from "react-helmet";
 
 const pageVariants = {
   initial: { opacity: 0, y: 30 },
@@ -113,6 +114,12 @@ const BrandCapabilities = () => {
     <motion.div
       className="fixed inset-0 bg-white text-[#1e1e1e] flex flex-col justify-between overflow-y-auto pt-[100px] z-40"
     >
+      <Helmet>
+        <title>Capabilities – Dot & Cross</title>
+        <meta name="description" content="Explore our strategic branding capabilities, from brand identity to creative systems and naming architecture." />
+        <link rel="canonical" href="https://dotandcross.agency/capabilities" />
+      </Helmet>
+
       {/* Black top bar behind the buttons */}
       <div className="absolute top-0 left-0 w-full h-20 sm:h-24 bg-[#1e1e1e] z-[-1]" />
 
