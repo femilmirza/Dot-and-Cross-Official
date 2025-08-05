@@ -16,6 +16,8 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import NotFound from "./NotFound";
 import { Helmet } from "react-helmet";
 import { HelmetProvider } from "react-helmet-async";
+import sitemap from "./sitemap.xml";
+import robotsTxt from "./robots.txt";
 
 
 const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCircles }) => {
