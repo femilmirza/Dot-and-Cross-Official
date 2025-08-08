@@ -59,9 +59,9 @@ const AboutUs = () => {
 
         <button
           onClick={() => navigate("/capabilities")}
-          className="text-4xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-medium leading-tight px-1 w-fit hover:text-[#42b7e9] hover:border-[#42b7e9] transition-all duration-300 cursor-pointer"
+          className="text-4xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-bold leading-tight px-1 w-fit hover:text-[#42b7e9] hover:border-[#42b7e9] transition-all duration-300 cursor-pointer"
         >
-          Find Your Way ! 👉
+          Find Your Way →
         </button>
       </div>
 

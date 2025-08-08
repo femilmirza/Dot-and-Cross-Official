@@ -1,4 +1,4 @@
-@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@600,700,800,900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@300,600,700,800,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
 
 @tailwind base;

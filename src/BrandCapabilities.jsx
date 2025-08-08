@@ -97,6 +97,7 @@ const capabilitiesData = [
       "◉ Branded merchandise, packaging and point-of-sale materials",
       "◉ Event assets: banners, signage and wayfinding",
       "◉ Custom one-off design requests",
+      "◉ Website design and development",
     ],
   },
 ];
@@ -153,7 +154,7 @@ const BrandCapabilities = () => {
                   initial={false}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <span className="text-4xl sm:text-3xl md:text-6xl font-medium leading-tight">
+                  <span className="text-4xl sm:text-3xl md:text-6xl font-semibold leading-tight">
                     {section.title}
                   </span>
                   <motion.svg
@@ -185,7 +186,7 @@ const BrandCapabilities = () => {
                       className="w-full"
                     >
                       <motion.p
-                        className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight px-1"
+                        className="block text-3xl sm:text-4xl md:text-4xl font-semibold leading-tight px-1"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}

@@ -27,21 +27,21 @@ const Philosophy = () => {
         </div>
 
         <div className="flex flex-col gap-10">
-          <div className="inline-block text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight px-1 space-y-5">
+          <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-5">
             <p>
-              <span className="font-medium underline">
+              <span className="font-regular underline">
                 Authenticity is the strongest magnet
               </span>
               <br />
-              <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              <span className="font-regular text-2xl sm:text-3xl md:text-4xl">
                 Authenticity is a brand's true self, unfiltered by trends or borrowed identities.
               </span>
             </p>
 
             <p>
-              <span className="font-medium underline">Honesty always wins.</span>
+              <span className="font-regular underline">Honesty always wins.</span>
               <br />
-              <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              <span className="font-regular text-2xl sm:text-3xl md:text-4xl">
                 The strongest brand story is the one that’s true.
               </span>
             </p>
