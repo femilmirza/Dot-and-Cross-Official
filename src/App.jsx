@@ -113,9 +113,11 @@ const FloatingCircles = ({ count = 10 }) => {
           const repelRadius = 120;
 
           if (dist < repelRadius) {
-            const force = (1 - dist / repelRadius) * 1.2;
+            const force = (1 - dist / repelRadius) * 1.5;
             c.dir.dx += (vecX / dist) * force;
             c.dir.dy += (vecY / dist) * force;
+            const extraSpeed = (repelRadius - dist) / repelRadius * 1.2;
+            c.speed = Math.min(c.speed + extraSpeed, 4);
           }
         }
 
@@ -127,6 +129,9 @@ const FloatingCircles = ({ count = 10 }) => {
         if (c.speed < MIN_SPEED) {
           c.speed = MIN_SPEED;
         }
+        // Slow down naturally
+        c.speed = Math.max(c.speed * 0.98, MIN_SPEED);
+
       });
 
       for (let i = 0; i < allCircles.length; i++) {
