@@ -22,18 +22,7 @@ const Ampersand = () => (
 );
 
 const capabilitiesData = [
-  {
-    id: "BrandClaritySessions",
-    title: "BRAND CLARITY SESSIONS",
-    color: "#f4eb27",
-    description:
-      "Designed for founders and teams needing quick clarity, direction or validation.",
-    items: [
-      "◉ Pulse Call (60 min): Focused chat on one challenge, plus a bullet-point summary",
-      "◉ Clarity Sprint (3–4 h): Pre-survey, guided workshop and a 1-page brand blueprint",
-      "◉ Clarity Intensive (full day): Everything in the Sprint, plus customer profiles, competitor map and team-alignment deck",
-    ],
-  },
+
   {
     id: "brandGlowUp",
     title: "BRAND GLOW UP",
@@ -89,6 +78,18 @@ const capabilitiesData = [
       "◉ Launch-day templates: social posts and email signature",
       "◉ Domain registration, website design, development and hosting",
       "◉ Go-live checklist and on-call support during launch week",
+    ],
+  },
+  {
+    id: "BrandClaritySessions",
+    title: "BRAND CLARITY SESSIONS",
+    color: "#f4eb27",
+    description:
+      "Designed for founders and teams needing quick clarity, direction or validation.",
+    items: [
+      "◉ Pulse Call (60 min): Focused chat on one challenge, plus a bullet-point summary",
+      "◉ Clarity Sprint (3–4 h): Pre-survey, guided workshop and a 1-page brand blueprint",
+      "◉ Clarity Intensive (full day): Everything in the Sprint, plus customer profiles, competitor map and team-alignment deck",
     ],
   },
   {
