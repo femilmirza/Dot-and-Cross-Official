@@ -74,7 +74,7 @@ html, body, * {
 
 @font-face {
   font-family: 'Trap';
-  src: url('fonts\Trap-Black.otf') format('opentype');
+  src: url('fonts/Trap-Black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
 }
