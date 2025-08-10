@@ -71,3 +71,11 @@ body {
 html, body, * {
   user-select: none;
 }
+
+@font-face {
+  font-family: 'Trap';
+  src: url('fonts\Trap-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+

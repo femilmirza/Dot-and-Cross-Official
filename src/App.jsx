@@ -17,6 +17,12 @@ import NotFound from "./NotFound";
 import { Helmet } from "react-helmet";
 import { HelmetProvider } from "react-helmet-async";
 
+const Ampersand = () => (
+  <span style={{ fontFamily: 'Trap', fontWeight: 900 }} aria-hidden="true">
+    &amp;
+  </span>
+);
+
 // --- Floating Circle (Dumb Component) ---
 const FloatingCircle = ({ circle, onClick }) => {
   return (
@@ -257,14 +263,15 @@ const pageTransition = {
 };
 
 // --- Line Component ---
-const Line = ({ text, onClick, isLink = false }) => {
+// --- Line Component --- (The new, flexible version)
+const Line = ({ text, onClick, isLink = false, customClassName = "" }) => { // <-- ADD customClassName PROP
   const interactive = text === "CONTACT" || isLink;
   const renderText = () =>
     text === "CROSS" ? (
       "CROSS"
     ) : text === "DOT &" ? (
       <>
-        DOT <span className="font-inter">&</span>
+        DOT <span className="font-inter leading-[0.7]"><Ampersand /></span>
       </>
     ) : (
       text
@@ -273,9 +280,9 @@ const Line = ({ text, onClick, isLink = false }) => {
     <div className="relative overflow-hidden w-full">
       <div
         onClick={interactive ? onClick : undefined}
-        className={`font-black uppercase tracking-tight leading-[0.75] text-[15vw] sm:text-[12vw] md:text-[16vw] whitespace-nowrap ${
+        className={`font-black uppercase tracking-tight leading-[0.75] whitespace-nowrap ${
           interactive ? "hover-fade cursor-pointer inline-block" : ""
-        }`}
+        } ${customClassName}`} // <-- USE THE PROP HERE
       >
         {renderText()}
       </div>
@@ -305,12 +312,12 @@ const Home = () => {
         transition={pageTransition}
         key="home"
       >
-        <Line text="DOT &" onClick={() => navigate("/")} isLink />
-        <Line text="CROSS" onClick={() => navigate("/")} isLink />
-        <Line text="ABOUT" onClick={() => navigate("/about")} isLink />
-        <Line text="PHILOSOPHY" onClick={() => navigate("/philosophy")} isLink />
-        <Line text="CAPABILITIES" onClick={() => navigate("/capabilities")} isLink />
-        <Line text="CONTACT" onClick={() => navigate("/contact")} isLink />
+        <Line text="DOT &" onClick={() => navigate("/")} isLink customClassName="text-[28vw] md:text-[16vw]" />
+        <Line text="CROSS" onClick={() => navigate("/")} isLink customClassName="text-[28vw] md:text-[16vw]" />
+        <Line text="ABOUT" onClick={() => navigate("/about")} isLink customClassName="text-[15vw] sm:text-[12vw] md:text-[16vw]" />
+        <Line text="PHILOSOPHY" onClick={() => navigate("/philosophy")} isLink customClassName="text-[15vw] sm:text-[12vw] md:text-[16vw]" />
+        <Line text="CAPABILITIES" onClick={() => navigate("/capabilities")} isLink customClassName="text-[15vw] sm:text-[12vw] md:text-[16vw]" />
+        <Line text="CONTACT" onClick={() => navigate("/contact")} isLink customClassName="text-[15vw] sm:text-[12vw] md:text-[16vw]" />
         <FloatingCircles count={10} />
         <div
           onClick={() => navigate("/privacypolicy")}
@@ -321,7 +328,7 @@ const Home = () => {
             We brand for alignment.
           </p>
           <p>
-            © {new Date().getFullYear()} DOT&CROSS. All rights reserved.{" "}
+            © {new Date().getFullYear()} DOT<Ampersand />CROSS. All rights reserved.{" "}
             <span className="underline cursor-pointer hover:opacity-80">
               Privacy Policy
             </span>

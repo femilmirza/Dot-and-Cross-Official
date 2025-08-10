@@ -14,6 +14,12 @@ const pageTransition = {
   ease: [0, 0, 0, 0],
 };
 
+const Ampersand = () => (
+  <span style={{ fontFamily: 'Trap', fontWeight: 900 }} aria-hidden="true">
+    &amp;
+  </span>
+);
+
 const AboutUs = () => {
   const navigate = useNavigate();
 
@@ -38,7 +44,7 @@ const AboutUs = () => {
         onClick={() => navigate(-1)}
         className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25] z-10"
       >
-        &amp;
+        <Ampersand />
       </div>
 
       <div className="flex flex-col gap-10">

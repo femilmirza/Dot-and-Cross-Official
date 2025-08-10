@@ -16,6 +16,12 @@ const pageTransition = {
   ease: [0.16, 1, 0.3, 1],
 };
 
+const Ampersand = () => (
+  <span style={{ fontFamily: 'Trap', fontWeight: 900 }} aria-hidden="true">
+    &amp;
+  </span>
+);
+
 const Contacts = () => {
   const navigate = useNavigate();
 
@@ -42,7 +48,7 @@ const Contacts = () => {
         onClick={() => navigate("/")}
         className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25] z-50"
       >
-        &amp;
+        <Ampersand />
       </div>
 
       {/* Contact Info */}

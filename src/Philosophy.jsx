@@ -2,6 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
+const Ampersand = () => (
+  <span style={{ fontFamily: 'Trap', fontWeight: 900 }} aria-hidden="true">
+    &amp;
+  </span>
+);
+
 const Philosophy = () => {
   const navigate = useNavigate();
 
@@ -23,39 +29,39 @@ const Philosophy = () => {
           onClick={() => navigate("/")}
           className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25] z-50"
         >
-          &amp;
+          <Ampersand />
         </div>
 
-        <div className="flex flex-col gap-10">
-          <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-5">
+        <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12">
+          <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-10 ">
             <p>
-              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">
+              <span className="font-semibold  uppercase decoration-[3px] underline-offset-[2px]">
                 Authenticity is the strongest magnet
               </span>
               <br />
-              <span className="font-regular text-2xl sm:text-3xl md:text-4xl">
+              <span className="font-medium text-2xl sm:text-3xl md:text-4xl tracking-tight ">
                 Authenticity is a brand's true self, unfiltered by trends or borrowed identities.
               </span>
             </p>
 
             <p>
-              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">Honesty always wins.</span>
+              <span className="font-semibold uppercase decoration-[3px] underline-offset-[2px]">Honesty always wins.</span>
               <br />
-              <span className="font-regular text-2xl sm:text-3xl md:text-4xl">
+              <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
                 The strongest brand story is the one that’s true.
               </span>
             </p>
 
             <p>
-              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">Purpose is Power</span>
+              <span className="font-semibold uppercase decoration-[3px] underline-offset-[2px] ">Purpose is Power</span>
               <br />
-              <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
+              <span className="font-medium text-2xl sm:text-3xl md:text-4xl"  >
                 A brand without true purpose is merely a business. Its real strength comes from a genuine reason for being, driving every action and connection.
               </span>
             </p>
 
             <p>
-              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">It starts within</span>
+              <span className="font-semibold uppercase decoration-[3px] underline-offset-[2px]">It starts within</span>
               <br />
               <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
                 A brand's external voice is only as strong as its internal alignment. Real power comes from a shared purpose, lived by everyone, not just declared outwardly.
@@ -63,7 +69,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">50/50</span>
+              <span className="font-semibold uppercase decoration-[3px] underline-offset-[2px]">50/50</span>
               <br />
               <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
                 Branding is a decision-making tool. We’ll do our half–Strategy, clarity and direction. The rest is yours to live.
@@ -71,7 +77,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">
+              <span className="font-semibold uppercase decoration-[3px] underline-offset-[2px]">
                 Humans are intuitive and emotional so are brands
               </span>
               <br />
