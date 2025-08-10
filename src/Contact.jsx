@@ -46,16 +46,16 @@ const Contacts = () => {
       </div>
 
       {/* Contact Info */}
-      <div className="flex flex-col items-start gap-1  mt-4 sm:mt-6 md:mt-8 mb-6 px-4">
+      <div className="flex flex-col items-start gap-1 mt-4 sm:mt-6 md:mt-8 mb-6 px-4">
         <a
           href="mailto:hi@dotandcross.agency"
-          className="block text-3xl sm:text-4xl md:text-6xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 break-words cursor-pointer"
+          className="block text-3xl sm:text-4xl md:text-6xl font-semibold leading-tight hover:opacity-80 transition-opacity duration-200 break-words cursor-pointer"
         >
           hi@dotandcross.agency
         </a>
         <a
           href="tel:+971521612390"
-          className="block text-3xl sm:text-4xl md:text-6xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+          className="block text-3xl sm:text-4xl md:text-6xl font-semibold leading-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
         >
           +971 52 161 2390
         </a>
@@ -63,7 +63,7 @@ const Contacts = () => {
           href="https://maps.app.goo.gl/F79xDWS4qsbTLUL5A"
           target="_blank"
           rel="noopener noreferrer"
-          className="block text-3xl sm:text-4xl md:text-6xl font-medium leading-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+          className="block text-3xl sm:text-4xl md:text-6xl font-semibold leading-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
         >
           MBZ City, Abu Dhabi, UAE
         </a>

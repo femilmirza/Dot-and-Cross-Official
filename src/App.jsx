@@ -6,7 +6,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, motionValue } from "framer-motion"; // CORRECTED IMPORT
 import "./index.css";
 import BrandCapabilities from "./BrandCapabilities";
 import AboutUs from "./AboutUs";
@@ -17,190 +17,223 @@ import NotFound from "./NotFound";
 import { Helmet } from "react-helmet";
 import { HelmetProvider } from "react-helmet-async";
 
-
-const FloatingCircle = ({ circle, onHover, onUnhover, onClick, mousePos, allCircles }) => {
-  const x = useMotionValue(circle.pos.x);
-  const y = useMotionValue(circle.pos.y);
-  useEffect(() => {
-  let animationId;
-
-  const animate = () => {
-    const currentX = x.get(), currentY = y.get();
-    let { dx, dy } = circle.dir;
-    let speed = circle.speed;
-
-    const isSmallScreen = window.innerWidth <= 768;
-    const targetSpeed = circle.repel ? (isSmallScreen ? 0.5 : 12) : 0.08;
-    speed += (targetSpeed - speed) * 0.04;
-    circle.speed = speed;
-
-    // Repel from mouse in all directions
-    if (!circle.dragging && circle.repel && mousePos.x !== null && mousePos.y !== null) {
-      const distX = currentX + 20 - mousePos.x;
-      const distY = currentY + 20 - mousePos.y;
-      const dist = Math.hypot(distX, distY);
-
-      if (dist < 150 && dist > 0.1) {
-        const force = 25 / dist;
-        dx += (distX / dist) * force;
-        dy += (distY / dist) * force;
-      }
-    }
-
-    // Inter-bubble repulsion (same as before)
-    allCircles.forEach(other => {
-      if (other.id !== circle.id) {
-        const distX = currentX + 20 - (other.pos.x + 20);
-        const distY = currentY + 20 - (other.pos.y + 20);
-        const distance = Math.hypot(distX, distY);
-        const minDistance = 50;
-
-        if (distance < minDistance && distance > 0) {
-          const overlap = (minDistance - distance) / 2;
-          const nx = distX / distance;
-          const ny = distY / distance;
-
-          circle.pos.x += nx * overlap;
-          circle.pos.y += ny * overlap;
-          other.pos.x -= nx * overlap;
-          other.pos.y -= ny * overlap;
-
-          circle.dir.dx += nx * 0.2;
-          circle.dir.dy += ny * 0.2;
-          other.dir.dx -= nx * 0.2;
-          other.dir.dy -= ny * 0.2;
-        }
-      }
-    });
-
-    // Normalize direction
-    const mag = Math.hypot(dx, dy) || 1;
-    dx /= mag;
-    dy /= mag;
-    circle.dir = { dx, dy };
-
-    // Update position
-    let newX = currentX + dx * speed * 4;
-    let newY = currentY + dy * speed * 4;
-
-    const w = window.innerWidth;
-    const h = window.innerHeight * 2;
-    const radius = 20;
-
-    // Bounce off walls
-    if (newX <= 0) {
-      newX = 0;
-      dx *= 1;
-    } else if (newX >= w - radius * 2) {
-      newX = w - radius * 2;
-      dx *= -1;
-    }
-
-    if (newY <= 0) {
-      newY = 0;
-      dy *= -1;
-    } else if (newY >= h - radius * 2) {
-      newY = h - radius * 2;
-      dy *= -1;
-    }
-
-    // Damp the bounce slightly
-    dx *= 0.98;
-    dy *= 0.98;
-
-    circle.pos.x = newX;
-    circle.pos.y = newY;
-    circle.dir = { dx, dy };
-
-    x.set(newX);
-    y.set(newY);
-
-    animationId = requestAnimationFrame(animate);
-  };
-
-  animate();
-  return () => cancelAnimationFrame(animationId);
-}, [circle, mousePos, allCircles, x, y]);
-
-
+// --- Floating Circle (Dumb Component) ---
+const FloatingCircle = ({ circle, onClick }) => {
   return (
     <motion.div
       className="absolute rounded-full pointer-events-auto cursor-pointer touch-none"
-      style={{ x, y, width: 40, height: 40, backgroundColor: circle.color, zIndex: 20 }}
+      style={{
+        x: circle.x,
+        y: circle.y,
+        width: 40,
+        height: 40,
+        backgroundColor: circle.color,
+        zIndex: 20,
+      }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
-      onMouseEnter={() => onHover(circle.id)}
-      onMouseLeave={() => onUnhover(circle.id)}
-      onClick={() => onClick(circle.id)}
+      onClick={onClick}
       drag={window.innerWidth <= 768}
       dragMomentum={false}
       dragElastic={0.2}
       onDragStart={() => (circle.dragging = true)}
       onDragEnd={(e, info) => {
-        circle.pos.x = info.point.x - 20;
-        circle.pos.y = info.point.y - 20;
+        circle.x.set(info.point.x - 20);
+        circle.y.set(info.point.y - 20);
         circle.dragging = false;
       }}
     />
   );
 };
 
+// --- Floating Circles Wrapper (Centralized Animation Engine) ---
 const FloatingCircles = ({ count = 10 }) => {
   const [circles, setCircles] = useState([]);
-  const [height, setHeight] = useState(window.innerHeight * 2);
   const mousePos = useRef({ x: null, y: null });
   const circlesRef = useRef([]);
+  const animationFrameId = useRef(null);
 
-  const getRandomPosition = useCallback(() => ({
-    x: Math.random() * (window.innerWidth - 40),
-    y: Math.random() * (window.innerHeight * 2 - 40),
+  const getRandomPosition = useCallback((w, h) => ({
+    x: Math.random() * (w - 40),
+    y: Math.random() * (h - 40),
   }), []);
 
-  const getRandomColor = () => ["#f36c21", "#f4eb27", "#42b7e9", "#00b0ba", "#006582", "#e94e77", "#7d5fff"][Math.floor(Math.random() * 7)];
+  const getRandomColor = useCallback(
+    () =>
+      ["#f36c21", "#f4eb27", "#42b7e9", "#00b0ba", "#006582", "#e94e77", "#7d5fff"][
+        Math.floor(Math.random() * 7)
+      ],
+    []
+  );
 
+  // Initialize circles only once
   useEffect(() => {
-    window.addEventListener("resize", () => setHeight(window.innerHeight * 2));
-    return () => window.removeEventListener("resize", () => {});
-  }, []);
+    const w = window.innerWidth;
+    const h = window.innerHeight * 2;
 
-  useEffect(() => {
     const newCircles = Array.from({ length: count }).map(() => {
       const angle = Math.random() * Math.PI * 2;
+      const pos = getRandomPosition(w, h);
       return {
         id: Math.random(),
-        pos: getRandomPosition(),
+        // CORRECTED: Use motionValue() factory function, NOT the useMotionValue() hook
+        x: motionValue(pos.x),
+        y: motionValue(pos.y),
         dir: { dx: Math.cos(angle), dy: Math.sin(angle) },
-        speed: 0.15,
         color: getRandomColor(),
-        repel: false,
+        radius: 20,
+        speed: 0.4 + Math.random() * 0.4,
+        dragging: false,
       };
     });
-    setCircles(newCircles);
-    circlesRef.current = newCircles;
-  }, [count, getRandomPosition]);
 
-  const handleMouseMove = (e) => { mousePos.current.x = e.clientX; mousePos.current.y = e.clientY; };
-  const handleMouseLeave = () => { mousePos.current = { x: null, y: null }; circlesRef.current.forEach(c => (c.repel = false)); };
-  const handleBubbleHover = (id) => circlesRef.current.find(c => c.id === id).repel = true;
-  const handleBubbleUnhover = (id) => circlesRef.current.find(c => c.id === id).repel = false;
-  const changeColor = (id) => {
-    const c = circlesRef.current.find(c => c.id === id);
-    c.color = getRandomColor();
-    setCircles([...circlesRef.current]);
+    circlesRef.current = newCircles;
+    setCircles(newCircles);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count]);
+
+  // The single, centralized animation loop
+  useEffect(() => {
+    const animate = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight * 2;
+      const allCircles = circlesRef.current;
+
+      allCircles.forEach((c) => {
+        if (c.dragging) return;
+        c.dir.dx += (Math.random() - 0.5) * 0.05;
+        c.dir.dy += (Math.random() - 0.5) * 0.05;
+
+        if (mousePos.current.x !== null) {
+          const currentX = c.x.get();
+          const currentY = c.y.get();
+          const vecX = currentX + c.radius - mousePos.current.x;
+          const vecY = currentY + c.radius - mousePos.current.y;
+          const dist = Math.hypot(vecX, vecY);
+          const repelRadius = 120;
+
+          if (dist < repelRadius) {
+            const force = (1 - dist / repelRadius) * 1.2;
+            c.dir.dx += (vecX / dist) * force;
+            c.dir.dy += (vecY / dist) * force;
+          }
+        }
+
+        const mag = Math.hypot(c.dir.dx, c.dir.dy) || 1;
+        c.dir.dx = (c.dir.dx / mag) * c.speed;
+        c.dir.dy = (c.dir.dy / mag) * c.speed;
+
+        const MIN_SPEED = 0.2;
+        if (c.speed < MIN_SPEED) {
+          c.speed = MIN_SPEED;
+        }
+      });
+
+      for (let i = 0; i < allCircles.length; i++) {
+        for (let j = i + 1; j < allCircles.length; j++) {
+          const c1 = allCircles[i];
+          const c2 = allCircles[j];
+
+          if (c1.dragging || c2.dragging) continue;
+
+          const c1x = c1.x.get();
+          const c1y = c1.y.get();
+          const c2x = c2.x.get();
+          const c2y = c2.y.get();
+
+          const vecX = c1x + c1.radius - (c2x + c2.radius);
+          const vecY = c1y + c1.radius - (c2y + c2.radius);
+          const dist = Math.hypot(vecX, vecY);
+          const minDistance = c1.radius + c2.radius;
+
+          if (dist < minDistance) {
+            const overlap = (minDistance - dist) / 2;
+            const normX = vecX / dist;
+            const normY = vecY / dist;
+            c1.x.set(c1x + normX * overlap);
+            c1.y.set(c1y + normY * overlap);
+            c2.x.set(c2x - normX * overlap);
+            c2.y.set(c2y - normY * overlap);
+
+            const v1 = { x: c1.dir.dx, y: c1.dir.dy };
+            const v2 = { x: c2.dir.dx, y: c2.dir.dy };
+            const v1n = v1.x * normX + v1.y * normY;
+            const v2n = v2.x * normX + v2.y * normY;
+            const v1t = v1.x * -normY + v1.y * normX;
+            const v2t = v2.x * -normY + v2.y * normX;
+            const newV1n = v2n;
+            const newV2n = v1n;
+            c1.dir.dx = newV1n * normX + v1t * -normY;
+            c1.dir.dy = newV1n * normY + v1t * normX;
+            c2.dir.dx = newV2n * normX + v2t * -normY;
+            c2.dir.dy = newV2n * normY + v2t * normX;
+
+            const DAMPING = 0.85;
+            c1.speed *= DAMPING;
+            c2.speed *= DAMPING;
+          }
+        }
+      }
+
+      allCircles.forEach((c) => {
+        if (c.dragging) return;
+
+        let newX = c.x.get() + c.dir.dx;
+        let newY = c.y.get() + c.dir.dy;
+
+        if (newX <= 0 || newX >= w - c.radius * 2) {
+          c.dir.dx *= -1;
+          newX = Math.max(0, Math.min(newX, w - c.radius * 2));
+        }
+        if (newY <= 0 || newY >= h - c.radius * 2) {
+          c.dir.dy *= -1;
+          newY = Math.max(0, Math.min(newY, h - c.radius * 2));
+        }
+
+        c.x.set(newX);
+        c.y.set(newY);
+      });
+
+      animationFrameId.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameId.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, []);
+
+  const handleMouseMove = (e) => {
+    mousePos.current.x = e.clientX;
+    mousePos.current.y = e.clientY;
   };
 
+  const handleMouseLeave = () => {
+    mousePos.current = { x: null, y: null };
+  };
+
+  const changeColor = useCallback((id) => {
+      const targetCircle = circlesRef.current.find((c) => c.id === id);
+      if (targetCircle) {
+        targetCircle.color = getRandomColor();
+      }
+      setCircles([...circlesRef.current]);
+    },
+    [getRandomColor]
+  );
+
   return (
-    <motion.div className="absolute top-0 left-0 pointer-events-none z-10" style={{ width: "100vw", height, overflow: "hidden" }} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
-      {circles.map(c => (
-        <FloatingCircle
-          key={c.id}
-          circle={c}
-          allCircles={circlesRef.current}
-          mousePos={mousePos.current}
-          onHover={handleBubbleHover}
-          onUnhover={handleBubbleUnhover}
-          onClick={changeColor}
-        />
+    <motion.div
+      className="absolute top-0 left-0 pointer-events-none z-10"
+      style={{ width: "100vw", height: "200vh", overflow: "hidden" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {circles.map((c) => (
+        <FloatingCircle key={c.id} circle={c} onClick={() => changeColor(c.id)} />
       ))}
     </motion.div>
   );
@@ -221,10 +254,24 @@ const pageTransition = {
 // --- Line Component ---
 const Line = ({ text, onClick, isLink = false }) => {
   const interactive = text === "CONTACT" || isLink;
-  const renderText = () => (text === "CROSS" ? "CROSS" : text === "DOT &" ? <>DOT <span className="font-inter">&</span></> : text);
+  const renderText = () =>
+    text === "CROSS" ? (
+      "CROSS"
+    ) : text === "DOT &" ? (
+      <>
+        DOT <span className="font-inter">&</span>
+      </>
+    ) : (
+      text
+    );
   return (
     <div className="relative overflow-hidden w-full">
-      <div onClick={interactive ? onClick : undefined} className={`font-black uppercase tracking-tight leading-[0.75] text-[15vw] sm:text-[12vw] md:text-[16vw] whitespace-nowrap ${interactive ? "hover-fade cursor-pointer inline-block" : ""}`}>
+      <div
+        onClick={interactive ? onClick : undefined}
+        className={`font-black uppercase tracking-tight leading-[0.75] text-[15vw] sm:text-[12vw] md:text-[16vw] whitespace-nowrap ${
+          interactive ? "hover-fade cursor-pointer inline-block" : ""
+        }`}
+      >
         {renderText()}
       </div>
     </div>
@@ -238,26 +285,21 @@ const Home = () => {
     <>
       <Helmet>
         <title>Dot & Cross – Home</title>
-        <meta name="description" content="Creative branding agency – DOT & CROSS" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ProfessionalService",
-              "name": "DOT & CROSS",
-              "url": "https://dotandcross.agency",
-              "sameAs": [
-                "https://linkedin.com/dot-and-cross-creative/",
-                "https://instagram.com/dotandcross.ae"
-              ]
-            })
-          }}
+        <meta
+          name="description"
+          content="Creative branding agency – DOT & CROSS"
         />
       </Helmet>
 
-      <motion.div className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair px-2 pt-[2vh] flex flex-col gap-[0.25em] overflow-hidden"
-        initial="initial" animate="animate" exit="exit" variants={pageVariants} transition={pageTransition} key="home">
+      <motion.div
+        className="app-container relative text-[#1e1e1e] min-h-screen cursor-crosshair px-2 pt-[2vh] flex flex-col gap-[0.25em] overflow-hidden"
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+        transition={pageTransition}
+        key="home"
+      >
         <Line text="DOT &" onClick={() => navigate("/")} isLink />
         <Line text="CROSS" onClick={() => navigate("/")} isLink />
         <Line text="ABOUT" onClick={() => navigate("/about")} isLink />
@@ -265,23 +307,32 @@ const Home = () => {
         <Line text="CAPABILITIES" onClick={() => navigate("/capabilities")} isLink />
         <Line text="CONTACT" onClick={() => navigate("/contact")} isLink />
         <FloatingCircles count={10} />
-        <div onClick={() => navigate("/privacypolicy")} className="absolute bottom-3 right-1 pr-10 text-xs text-right leading-[0.8] tracking-tight text-[#1e1e1e] opacity-80 indent-10">
-          <p>We don’t brand for attention ——<br />We brand for alignment.</p>
-          <p>© {new Date().getFullYear()} DOT&CROSS. All rights reserved. <span className="underline cursor-pointer hover:opacity-80">Privacy Policy</span></p>
+        <div
+          onClick={() => navigate("/privacypolicy")}
+          className="absolute bottom-3 right-1 pr-10 text-xs font-semibold text-right leading-[0.8] text-[#1e1e1e] opacity-80 indent-10"
+        >
+          <p>
+            We don’t brand for attention ——<br />
+            We brand for alignment.
+          </p>
+          <p>
+            © {new Date().getFullYear()} DOT&CROSS. All rights reserved.{" "}
+            <span className="underline cursor-pointer hover:opacity-80">
+              Privacy Policy
+            </span>
+          </p>
         </div>
       </motion.div>
     </>
   );
 };
 
-// --- App Wrapper with AnimatePresence ---
+// --- App Wrapper ---
 const App = () => {
   const location = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
@@ -299,9 +350,11 @@ const App = () => {
 
 // --- Root Entry ---
 const Root = () => (
-  <Router>
-    <App />
-  </Router>
+  <HelmetProvider>
+    <Router>
+      <App />
+    </Router>
+  </HelmetProvider>
 );
 
 export default Root;

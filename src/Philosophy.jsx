@@ -29,7 +29,7 @@ const Philosophy = () => {
         <div className="flex flex-col gap-10">
           <div className="inline-block text-4xl sm:text-5xl md:text-6xl tracking-tight px-1 space-y-5">
             <p>
-              <span className="font-regular underline">
+              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">
                 Authenticity is the strongest magnet
               </span>
               <br />
@@ -39,7 +39,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-regular underline">Honesty always wins.</span>
+              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">Honesty always wins.</span>
               <br />
               <span className="font-regular text-2xl sm:text-3xl md:text-4xl">
                 The strongest brand story is the one that’s true.
@@ -47,7 +47,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-medium underline">Purpose is Power</span>
+              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">Purpose is Power</span>
               <br />
               <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
                 A brand without true purpose is merely a business. Its real strength comes from a genuine reason for being, driving every action and connection.
@@ -55,7 +55,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-medium underline">It starts within</span>
+              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">It starts within</span>
               <br />
               <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
                 A brand's external voice is only as strong as its internal alignment. Real power comes from a shared purpose, lived by everyone, not just declared outwardly.
@@ -63,7 +63,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-medium underline">50/50</span>
+              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">50/50</span>
               <br />
               <span className="font-medium text-2xl sm:text-3xl md:text-4xl">
                 Branding is a decision-making tool. We’ll do our half–Strategy, clarity and direction. The rest is yours to live.
@@ -71,7 +71,7 @@ const Philosophy = () => {
             </p>
 
             <p>
-              <span className="font-medium underline">
+              <span className="font-regular underline decoration-[3px] underline-offset-[2px]">
                 Humans are intuitive and emotional so are brands
               </span>
               <br />

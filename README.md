@@ -4,10 +4,15 @@ A single-page React + Vite site with animated transitions, custom Bebas Neue fon
 
 ## Features
 
-- React Router navigation (BRANDS, START, HERE)
-- Framer Motion page transitions
-- Custom font (Bebas Neue)
-- Tailwind CSS styling
+- **React Router navigation** (ABOUT, PHILOSOPHY, CAPABILITIES, CONTACT, PRIVACY POLICY)
+- **Framer Motion** page transitions (all pages use `AnimatePresence`)
+- **Floating interactive circles** on the homepage
+- **Custom fonts** (Bebas Neue, Clash Grotesk, Inter)
+- **Tailwind CSS** styling
+- **SEO meta tags** via `react-helmet-async`
+- **Responsive scaling** for mobile/tablet
+- **Accordion UI** for Capabilities
+- **Social/contact links** and animated CTA buttons
 
 ## Getting Started
 
@@ -18,18 +23,30 @@ npm run dev
 
 ## Folder Structure
 
-- `src/components/NavBar.jsx` — Top navigation
-- `src/pages/` — Home, Brands, Start, Here pages
+- `src/App.jsx` — Main app, routes, transitions, homepage, floating circles
+- `src/BrandCapabilities.jsx` — Capabilities accordion page
+- `src/AboutUs.jsx` — About page
+- `src/Philosophy.jsx` — Philosophy page
+- `src/Contact.jsx` — Contact page
+- `src/PrivacyPolicy.jsx` — Privacy Policy page
+- `src/NotFound.jsx` — 404 page
+- `src/main.jsx` — Entry point
+- `src/index.css` — Global styles, font imports, scaling
+- `public/` — Static assets, favicon, sitemap, robots.txt
 
-# React + Vite
+## Customization
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- **All pages use Framer Motion’s `AnimatePresence` for transitions.**
+- **Navigation is handled via React Router.**
+- **Tailwind CSS** is used for all styling.
+- **SEO** handled with `react-helmet-async`.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ESLint config for React and hooks
+- Vite for fast HMR and builds
 
-## Expanding the ESLint configuration
+## License
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+© DOT & CROSS. All rights reserved.
+
