@@ -22,7 +22,19 @@ const Ampersand = () => (
 );
 
 const capabilitiesData = [
-
+  {
+    id: "brandGlowUp",
+    title: "WAYFINDING & SIGNAGE",
+    color: "#83cdb8",
+    description:
+      "Clear, functional and beautifully executed systems that guide peopleand define spaces.",
+    items: [
+      "◉ External & internal wayfinding systems",
+      "◉ Retail, hospitality & public space signage",
+      "◉ Architechural & digital signage",
+      "◉ Custom landmark features",
+    ],
+  },
   {
     id: "brandGlowUp",
     title: "BRAND GLOW UP",
