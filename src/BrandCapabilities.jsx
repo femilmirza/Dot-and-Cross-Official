@@ -23,9 +23,9 @@ const Ampersand = () => (
 
 const capabilitiesData = [
   {
-    id: "brandGlowUp",
+    id: "WayfindingAndSignage",
     title: "WAYFINDING & SIGNAGE",
-    color: "#83cdb8",
+    color: "#ffb347",
     description:
       "Clear, functional and beautifully executed systems that guide peopleand define spaces.",
     items: [
