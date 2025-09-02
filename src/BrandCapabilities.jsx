@@ -23,19 +23,6 @@ const Ampersand = () => (
 
 const capabilitiesData = [
   {
-    id: "WayfindingAndSignage",
-    title: "WAYFINDING & SIGNAGE",
-    color: "#ffb347",
-    description:
-      "Clear, functional and beautifully executed systems that guide peopleand define spaces.",
-    items: [
-      "◉ External & internal wayfinding systems",
-      "◉ Retail, hospitality & public space signage",
-      "◉ Architechural & digital signage",
-      "◉ Custom landmark features",
-    ],
-  },
-  {
     id: "brandGlowUp",
     title: "BRAND GLOW UP",
     color: "#83cdb8",
@@ -43,7 +30,7 @@ const capabilitiesData = [
       "Ideal when your visual identity needs to catch up with your growth.",
     items: [
       "◉ Refreshed logo mark, color palette and typography",
-      "◉ Collateral pack: business cards, stationery and mock-ups",
+      "◉ Collateral pack: company profile, brochure, business cards, stationery and mock-ups",
       "◉ Compact style guide with key do’s and don’ts",
     ],
   },
@@ -93,6 +80,19 @@ const capabilitiesData = [
     ],
   },
   {
+    id: "WayfindingAndSignage",
+    title: "WAYFINDING & SIGNAGE",
+    color: "#ffb347",
+    description:
+      "Clear, functional and beautifully executed systems that guide peopleand define spaces.",
+    items: [
+      "◉ External & internal wayfinding systems",
+      "◉ Retail, hospitality & public space signage",
+      "◉ Architechural & digital signage",
+      "◉ Custom landmark features",
+    ],
+  },
+  {
     id: "BrandClaritySessions",
     title: "BRAND CLARITY SESSIONS",
     color: "#f4eb27",
@@ -114,7 +114,7 @@ const capabilitiesData = [
       "◉ Pitch decks and proposals",
       "◉ Social graphics and ad covers",
       "◉ Branded merchandise, packaging and point-of-sale materials",
-      "◉ Event assets: banners, signage and wayfinding",
+      "◉ Event assets: backdrops, bespoke print and digital design assets",
       "◉ Custom one-off design requests",
       "◉ Website design and development",
     ],

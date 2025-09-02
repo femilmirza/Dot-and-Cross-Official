@@ -319,6 +319,17 @@ const Home = () => {
         <Line text="CAPABILITIES" onClick={() => navigate("/capabilities")} isLink customClassName="text-[15vw] sm:text-[12vw] md:text-[16vw]" />
         <Line text="CONTACT" onClick={() => navigate("/contact")} isLink customClassName="text-[15vw] sm:text-[12vw] md:text-[16vw]" />
         <FloatingCircles count={10} />
+                {/* CTA Button */}
+                <motion.div
+                  onClick={() =>
+                    window.open("https://calendly.com/discoverycall-dotandcross/30min", "_blank")
+                  }
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="self-start text-center text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] px-8 py-5 mt-6 mb-10 ml-5"
+                >
+                  BOOK A FREE DISCOVERY CALL
+                </motion.div>
         <div
           onClick={() => navigate("/privacypolicy")}
           className="absolute bottom-3 right-1 pr-10 text-xs font-semibold text-right leading-[0.8] text-[#1e1e1e] opacity-80 indent-10"
@@ -338,6 +349,7 @@ const Home = () => {
     </>
   );
 };
+
 
 // --- App Wrapper ---
 const App = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 
 
@@ -107,8 +107,16 @@ const Contacts = () => {
         >
           <FaLinkedin />
         </a>
+        <a
+          href="https://wa.me/971521612390"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-3xl text-[#1e1e1e] hover:scale-110 transition-transform duration-200"
+        >
+          <FaWhatsapp />
+        </a>
       </div>
-
+      
       {/* BACK Button */}
       <div className="inline-block overflow-visible mt-10 mb-8 px-4">
         <div
