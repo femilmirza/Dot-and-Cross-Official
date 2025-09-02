@@ -72,16 +72,25 @@ html, body, * {
   user-select: none;
 }
 
+
+/* Trap Black (900) */
 @font-face {
   font-family: 'Trap';
   src: url('fonts/Trap-black-webfont.woff2') format('woff2'),
        url('fonts/Trap-black-webfont.woff') format('woff'),
-       url('fonts/Trap-extrabold-webfont.woff') format('woff'),
-       url('fonts/Trap-Extrabold.otf') format('opentype'),
-       url('fonts/Trap-Black.otf') format('opentype'), /* optional fallback */
-       url('fonts/Trap-extrabold-webfont.woff2') format('woff2');
+       url('fonts/Trap-Black.otf') format('opentype'); /* fallback */
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
+/* Trap ExtraBold (800) */
+@font-face {
+  font-family: 'Trap';
+  src: url('fonts/Trap-extrabold-webfont.woff2') format('woff2'),
+       url('fonts/Trap-extrabold-webfont.woff') format('woff'),
+       url('fonts/Trap-Extrabold.otf') format('opentype'); /* fallback */
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
