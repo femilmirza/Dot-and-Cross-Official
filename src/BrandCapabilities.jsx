@@ -205,7 +205,7 @@ const BrandCapabilities = () => {
                       className="w-full"
                     >
                       <motion.p
-                        className="block text-3xl sm:text-2xl md:text-3xl font-semibold leading-tight px-1"
+                        className="block text-3xl sm:text-1xl md:text-3xl font-semibold leading-tight px-1"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
