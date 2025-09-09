@@ -217,7 +217,7 @@ const BrandCapabilities = () => {
                         {section.items.map((item, idx) => (
                           <motion.li
                             key={idx}
-                            className="block text-3xl sm:text-2xl md:text-3xl font-medium leading-tight px-1 mb-2"
+                            className="block text-3xl sm:text-1xl md:text-3xl font-medium leading-tight px-1 mb-2"
                             initial={{ opacity: 0, x: -15 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
