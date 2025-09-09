@@ -341,7 +341,7 @@ const Home = () => {
             We brand for alignment.
           </p>
           <p>
-            © {new Date().getFullYear()} DOT<Ampersand />CROSS. All rights reserved.{" "}
+            © {new Date().getFullYear()} Dot <Ampersand /> Cross. All rights reserved.{" "}
             <span className="underline cursor-pointer hover:opacity-80">
               Privacy Policy
             </span>

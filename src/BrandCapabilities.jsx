@@ -205,7 +205,7 @@ const BrandCapabilities = () => {
                       className="w-full"
                     >
                       <motion.p
-                        className="block text-3xl sm:text-4xl md:text-4xl font-semibold leading-tight px-1"
+                        className="block text-3xl sm:text-2xl md:text-3xl font-semibold leading-tight px-1"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
@@ -217,7 +217,7 @@ const BrandCapabilities = () => {
                         {section.items.map((item, idx) => (
                           <motion.li
                             key={idx}
-                            className="block text-3xl sm:text-4xl md:text-4xl font-medium leading-tight px-1 mb-2"
+                            className="block text-3xl sm:text-2xl md:text-3xl font-medium leading-tight px-1 mb-2"
                             initial={{ opacity: 0, x: -15 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
