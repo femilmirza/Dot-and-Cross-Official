@@ -2,7 +2,16 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-
+const Ampersands = () => (
+  <span style={{ fontFamily: 'Trap', fontWeight: 400 }} aria-hidden="true">
+    &amp;
+  </span>
+);
+const Ampersandl = () => (
+  <span style={{ fontFamily: 'Trap', fontWeight: 900 }} aria-hidden="true">
+    &amp;
+  </span>
+);
 const pageVariants = {
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
@@ -31,9 +40,9 @@ const PrivacyPolicy = () => {
       {/* Close (&) button */}
       <div
         onClick={() => navigate(-1)}
-        className="absolute top-0 left-5 text-[60px] sm:text-[80px] font-inter text-[#fafafa] cursor-pointer select-none leading-[1.25]"
+        className="absolute top-0 left-5 text-[60px] sm:text-[80px] text-[#fafafa] cursor-pointer select-none leading-[1.25]"
       >
-        &amp;
+        <Ampersandl />
       </div>
 
       {/* Privacy Policy content */}
@@ -43,7 +52,7 @@ const PrivacyPolicy = () => {
         </h1>
 
         <p className="text-lg leading-relaxed">
-          DOT & CROSS respects your privacy. We collect only the information
+          DOT <Ampersands /> CROSS respects your privacy. We collect only the information
           necessary to respond to inquiries and improve our services. Any data
           shared via contact forms, email, or analytics is never sold or shared
           with third parties, except as required by law.

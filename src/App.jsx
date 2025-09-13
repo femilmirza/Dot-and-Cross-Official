@@ -327,7 +327,7 @@ const Home = () => {
                   }
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="self-start text-center justify-center text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-white hover:bg-[#42b7e9] hover:text-[#1e1e1e] whitespace-nowrap px-8 py-5 mt-6 mb-10"
+                  className="self-start text-center justify-center text-2xl md:text-3xl font-black uppercase cursor-pointer transition-all duration-300 bg-[#1e1e1e] text-[#f8f8f8] hover:bg-[#f8f8f8] hover:text-[#1e1e1e] whitespace-nowrap px-8 py-5 mt-6 mb-20"
                 >
                   BOOK A FREE DISCOVERY CALL
                 </motion.div>
@@ -337,7 +337,7 @@ const Home = () => {
           className="absolute bottom-3 right-1 pr-10 text-xs font-semibold text-right leading-[0.8] text-[#1e1e1e] opacity-80 indent-10"
         >
           <p>
-            We don’t brand for attention ——<br />
+            We don’t brand for attention ——<br/>
             We brand for alignment.
           </p>
           <p>

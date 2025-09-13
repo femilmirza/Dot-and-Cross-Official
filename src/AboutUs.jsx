@@ -60,12 +60,17 @@ const AboutUs = () => {
           <br /><br />
           Not because it stopped mattering, but because it got buried under the need to belong. 
           <br /><br />
+        </p>
+        </div>
+
+      <div className="flex flex-col gap-10">
+        <p className="text-4xl sm:text-6xl md:text-7xl font-medium leading-tight px-1">
           Resonate?
         </p>
 
         <button
           onClick={() => navigate("/capabilities")}
-          className="text-4xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-bold leading-tight px-1 w-fit hover:text-[#42b7e9] hover:border-[#42b7e9] transition-all duration-300 cursor-pointer"
+          className="text-4xl sm:text-6xl md:text-7xl border-b-4 border-[#1e1e1e] font-medium leading-tight px-1 w-fit hover:text-[#42b7e9] hover:border-[#42b7e9] transition-all duration-300 cursor-pointer"
         >
           Find Your Way →
         </button>
